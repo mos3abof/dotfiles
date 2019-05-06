@@ -1,0 +1,10 @@
+bash_profile:.bash_profile
+bashrc:.bashrc
+bashrc.functions:.bashrc.functions
+inputrc:.inputrc
+tmux:.tmux
+tmux/tmux.conf:.tmux.conf
+vim:.vim
+vim/vimrc:.vimrc
+gitconfig:.gitconfig
+gitignore.global:.gitignore.global
