@@ -252,7 +252,11 @@ nmap <silent> <Leader>oJ :FSBelow<cr>
 
 "fzf setup
 set rtp+=/usr/local/opt/fzf
-" Plug '/usr/local/opt/fzf'
+noremap <silent> <Leader>f :Files!<CR>
+" noremap <silent> <Leader>f :call fzf#run({'window': 'execute (tabpagenr()-1)."tabnew"'})<CR>
+" noremap <silent> <Leader>f :call fzf#run({'down': '50'})<CR>
+noremap <silent> <Leader>b :Buffers!<CR>
+noremap <silent> <Leader>a :Tags<CR>
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
@@ -269,4 +273,11 @@ let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 " Spell check
 set spelllang=en
 set spellfile=$HOME/.vim/spell/en.utf-8.add
+
+" Tests
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
 

@@ -67,8 +67,12 @@ Plugin 'inkarkat/vim-spellcheck'
 
 " fzf
 Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 " Git
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'idanarye/vim-merginal'
+
+" Tests
+Plugin 'janko/vim-test'

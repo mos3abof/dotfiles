@@ -1,86 +1,30 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-alias ls='ls $LS_OPTIONS'
+export PS1="[LOCAL] \w $ "
+export CLICOLOR=1
+
+export PATH="/usr/local/sbin:$PATH"
 
 export GOPATH="$HOME/Projects/go"
 export PATH="$PATH:$GOPATH/bin"
-
-# Functions reside in a separate file
-# shellcheck source=bashrc.functions
-source "${HOME}/.bashrc.functions"
 
 # Brew is slow, so calculate the prefix once
 export BREW_PREFIX="/usr/local/opt"
 export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
 export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
 
-# Vi mode ON!
-set -o vi
-
 shopt -s checkwinsize
 
-# Prevent CTRL-s from freezing terminal
-# stty doesn't come with msysgit, and isn't required for it
-# -t 0 means it only runs if in a terminal
-if [ -t 0 ]
-then
-	if [ $OSTYPE != "msys" ]
-	then
-		stty stop ''
-		stty -ixon
-	fi
-fi
-umask 022
-
-if [ "$TERM" = "linux" ]
-then
-	# we're on the system console or maybe telnetting in
-	export PS1="\[\e[32;1m\]\u@\H > \[\e[0m\]"
-#else
-	# we're not on the console, assume an xterm
-	#bash_prompt
-	#export TERM='screen-256color'
-	# TODO: why this no work?
-	#export TERM='xterm-kitty'
-fi
-
-
-GREP_OPTIONS='--color'
-export PERL_CPANM_OPT='--sudo '
-export CLICOLOR=1
-
-if [ -x /usr/bin/dircolors ]
-then
-	# -b switch is to force bash style output on win32/cygwin
-	eval "$(dircolors -b)"
-fi
-
+#umask 022
+#
 # Aliases
 alias mkdir='mkdir -p -v'
 alias recent="ls -lAt | head"
-alias iostat='iostat -x'
-alias vmstat='vmstat -S K'
-alias pod='perldoc'
-alias vless='/usr/share/vim/vimcurrent/macros/less.sh'
-alias du1='du -h --max-depth=1'
-alias du2='du -h --max-depth=2'
-alias du3='du -h --max-depth=3'
-alias grep='grep $GREP_OPTIONS'
 alias rg='rg --hidden'
 alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
 
 # Kubernetes
 alias k='kubectl'
-#complete -o default -F __start_kubectl k
-
-## Shell varibles
-if type nvim > /dev/null; then
-	export EDITOR=nvim
-else
-	export EDITOR=vim
-fi
-export PAGER=less
-export LESS='-RX'
 
 # Bash history commands
 export HISTSIZE=10000 # Keep 10000 lines in session history
@@ -170,3 +114,13 @@ eval "$(scmpuff init -s)"
 
 # Everything that shouldn't be on a public repo is here
 [ -f ~/.bashrc.private ] && source ~/.bashrc.private
+
+for filename in ~/.bashrc.private*; do
+  # This is to ensure we don't break if there's nothing that matches the glob
+  [ -e "$filename" ] || continue
+  source "$filename"
+done
+
+export BASH_COMPLETION_COMPAT_DIR=/usr/local/etc/bash_completion.d
+[[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
+
