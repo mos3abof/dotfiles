@@ -15,15 +15,16 @@ export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
 
 shopt -s checkwinsize
 
-#umask 022
-#
+umask 022
+
 # Aliases
+alias ll='ls -lhA'
 alias mkdir='mkdir -p -v'
 alias recent="ls -lAt | head"
 alias rg='rg --hidden'
 alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
-
-# Kubernetes
+alias pg11="docker run --rm  --name postgres-11.2 -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:11.2"
+alias pg94="docker run --rm  --name postgres-9.4 -e POSTGRES_PASSWORD=docker -d -p 5431:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:9.4"
 alias k='kubectl'
 
 # Bash history commands
