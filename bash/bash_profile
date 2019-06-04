@@ -9,3 +9,5 @@ export LANGUAGE=en_GB.UTF-8
 if [[ -r "${HOME}/.bashrc" ]]; then
 	source "${HOME}/.bashrc"
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
