@@ -76,3 +76,6 @@ Plugin 'idanarye/vim-merginal'
 
 " Tests
 Plugin 'janko/vim-test'
+
+" Goyo
+Plugin 'junegunn/goyo.vim'
