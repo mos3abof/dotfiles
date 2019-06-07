@@ -96,6 +96,8 @@ set splitright
 
 " NERDTree Shortcuts
 map <C-n> :NERDTreeToggle<cr>
+map <silent> <Leader>n :NERDTreeToggle<cr>
+map <silent> <Leader>v :NERDTreeFind<cr>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -103,6 +105,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 silent! map <F3> :NERDTreeFind<CR>
 let g:NERDTreeMapActivateNode="<F3>"
 let NERDTreeShowHidden=1
+let NERDTreeQuitOnOpen = 1
 
 " CtrlP Configuration
 set wildignore+=*/target/*

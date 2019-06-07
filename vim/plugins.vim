@@ -73,6 +73,7 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'idanarye/vim-merginal'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " Tests
 Plugin 'janko/vim-test'
