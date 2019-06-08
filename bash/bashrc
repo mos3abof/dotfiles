@@ -8,10 +8,12 @@ export PATH="/usr/local/sbin:$PATH"
 export GOPATH="$HOME/Projects/go"
 export PATH="$PATH:$GOPATH/bin"
 
-# Brew is slow, so calculate the prefix once
-export BREW_PREFIX="/usr/local/opt"
-export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
-export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # Brew is slow, so calculate the prefix once
+  export BREW_PREFIX="/usr/local/opt"
+  export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
+  export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+fi
 
 shopt -s checkwinsize
 
