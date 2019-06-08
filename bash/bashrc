@@ -8,10 +8,19 @@ export PATH="/usr/local/sbin:$PATH"
 export GOPATH="$HOME/Projects/go"
 export PATH="$PATH:$GOPATH/bin"
 
-# Brew is slow, so calculate the prefix once
-export BREW_PREFIX="/usr/local/opt"
-export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
-export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+
+OS=$(uname)
+if [[ "$OS" == "Linux" ]]; then
+  alias l='ls -CF'
+  alias la='ls -A'
+  alias ll='ls -alF'
+  alias ls='ls --color=auto'
+elif [[ "$OS" == "Darwin"* ]]; then
+  # Brew is slow, so calculate the prefix once
+  export BREW_PREFIX="/usr/local/opt"
+  export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
+  export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+fi
 
 shopt -s checkwinsize
 
