@@ -8,6 +8,16 @@ export PATH="/usr/local/sbin:$PATH"
 export GOPATH="$HOME/Projects/go"
 export PATH="$PATH:$GOPATH/bin"
 
+#export BASH_COMPLETION_COMPAT_DIR=/usr/local/etc/bash_completion.d
+#[[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
+# autocompletion
+#if [ -f /usr/local/share/bash-completion/bash_completion ]; then
+#  . /usr/local/share/bash-completion/bash_completion
+#fi
+
+# Bash completion for kubectl
+source <(kubectl completion bash)
+
 
 OS=$(uname)
 if [[ "$OS" == "Linux" ]]; then
@@ -20,6 +30,7 @@ elif [[ "$OS" == "Darwin"* ]]; then
   export BREW_PREFIX="/usr/local/opt"
   export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
   export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+  [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && source $(brew --prefix)/etc/profile.d/autojump.sh
 fi
 
 shopt -s checkwinsize
@@ -35,6 +46,7 @@ alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HE
 alias pg11="docker run --rm  --name postgres-11.2 -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:11.2"
 alias pg94="docker run --rm  --name postgres-9.4 -e POSTGRES_PASSWORD=docker -d -p 5431:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:9.4"
 alias k='kubectl'
+complete -F _complete_alias k
 
 # Bash history commands
 export HISTSIZE=10000 # Keep 10000 lines in session history
@@ -131,6 +143,4 @@ for filename in ~/.bashrc.private*; do
   source "$filename"
 done
 
-export BASH_COMPLETION_COMPAT_DIR=/usr/local/etc/bash_completion.d
-[[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
 
