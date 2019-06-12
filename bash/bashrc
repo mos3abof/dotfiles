@@ -11,13 +11,15 @@ export PATH="$PATH:$GOPATH/bin"
 #export BASH_COMPLETION_COMPAT_DIR=/usr/local/etc/bash_completion.d
 #[[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
 # autocompletion
-#if [ -f /usr/local/share/bash-completion/bash_completion ]; then
-#  . /usr/local/share/bash-completion/bash_completion
-#fi
+if [ -f /usr/local/share/bash-completion/bash_completion ]; then
+  . /usr/local/share/bash-completion/bash_completion
+fi
 
 # Bash completion for kubectl
 source <(kubectl completion bash)
-
+# Bash completion for git
+GIT_COMPLETION_PATH="~/.local/share/bash-completion/git-completion.bash"
+[[ -f $GIT_COMPLETION_PATH ]] && . $GIT_COMPLETION_PATH
 
 OS=$(uname)
 if [[ "$OS" == "Linux" ]]; then
@@ -52,7 +54,7 @@ complete -F _complete_alias k
 export HISTSIZE=10000 # Keep 10000 lines in session history
 export HISTFILESIZE=100000 # Truncate file at 100,000 lines
 # don't put duplicate lines in the history. See bash(1) for more options
-export HISTCONTROL=ignoredups,ignorespace
+export HISTCONTROL=ignoredups:ignorespace:erasedups
 export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs"
 # Don't overwrite history if using multiple bash sessions
 shopt -s histappend
@@ -120,6 +122,7 @@ export FZF_CTRL_T_OPTS='--height 100% --no-reverse --bind ctrl-j:down,ctrl-k:up'
 
 # Git setup
 alias g=git
+complete -F _complete_alias g
 alias gp='git push'
 alias gpf='git push -f'
 alias gpl='git pull'
