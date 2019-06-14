@@ -33,6 +33,7 @@ elif [[ "$OS" == "Darwin"* ]]; then
   export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
   export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
   [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && source $(brew --prefix)/etc/profile.d/autojump.sh
+  alias tar=/usr/local/bin/gtar
 fi
 
 shopt -s checkwinsize
@@ -145,5 +146,4 @@ for filename in ~/.bashrc.private*; do
   [ -e "$filename" ] || continue
   source "$filename"
 done
-
 
