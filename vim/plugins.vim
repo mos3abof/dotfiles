@@ -80,3 +80,7 @@ Plugin 'janko/vim-test'
 
 " Goyo
 Plugin 'junegunn/goyo.vim'
+
+" Terraform
+Plugin 'hashivim/vim-terraform'
+Plugin 'juliosueiras/vim-terraform-completion'
