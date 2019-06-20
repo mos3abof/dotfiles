@@ -8,9 +8,6 @@ export PATH="/usr/local/sbin:$PATH"
 export GOPATH="$HOME/Projects/go"
 export PATH="$PATH:$GOPATH/bin"
 
-#export BASH_COMPLETION_COMPAT_DIR=/usr/local/etc/bash_completion.d
-#[[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
-# autocompletion
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
   . /usr/local/share/bash-completion/bash_completion
 fi
@@ -18,8 +15,6 @@ fi
 # Bash completion for kubectl
 source <(kubectl completion bash)
 # Bash completion for git
-GIT_COMPLETION_PATH="~/.local/share/bash-completion/git-completion.bash"
-[[ -f $GIT_COMPLETION_PATH ]] && . $GIT_COMPLETION_PATH
 
 OS=$(uname)
 if [[ "$OS" == "Linux" ]]; then
@@ -34,6 +29,13 @@ elif [[ "$OS" == "Darwin"* ]]; then
   export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
   [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && source $(brew --prefix)/etc/profile.d/autojump.sh
   alias tar=/usr/local/bin/gtar
+
+  #Bash completion for git on mac
+  [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion || {
+      # if not found in /usr/local/etc, try the brew --prefix location
+      [ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ] && \
+          . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+  }
 fi
 
 shopt -s checkwinsize
