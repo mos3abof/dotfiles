@@ -126,16 +126,29 @@ export FZF_CTRL_T_OPTS='--height 100% --no-reverse --bind ctrl-j:down,ctrl-k:up'
 alias g=git
 complete -F _complete_alias g
 alias gp='git push'
+complete -F _complete_alias gp
 alias gpf='git push -f'
+complete -F _complete_alias gpf
 alias gpl='git pull'
+complete -F _complete_alias gpl
 alias gc='git commit'
+complete -F _complete_alias gc
 alias gca='git commit --amend'
+complete -F _complete_alias gca
 alias gcm='git commit -m'
+complete -F _complete_alias gcm
 alias gcob='git checkout -b'
+complete -F _complete_alias gcob
 alias gshow='git show'
+complete -F _complete_alias gshow
 alias gbranch='git branch'
+complete -F _complete_alias gbranch
 alias gstash='git stash'
+complete -F _complete_alias gstash
 alias greset='git reset'
+complete -F _complete_alias greset
+alias gclone='git clone'
+complete -F _complete_alias gclone
 # scmpuff for sane git workflow
 # Other aliases included in it:
 #alias gs='scmpuff_status'
@@ -145,6 +158,12 @@ alias greset='git reset'
 #alias gco='git checkout'
 #alias grs='git reset'
 eval "$(scmpuff init -s)"
+complete -F _complete_alias gs
+complete -F _complete_alias gl
+complete -F _complete_alias ga
+complete -F _complete_alias gd
+complete -F _complete_alias gco
+complete -F _complete_alias grs
 
 # Everything that shouldn't be on a public repo is here
 [ -f ~/.bashrc.private ] && source ~/.bashrc.private
