@@ -210,7 +210,7 @@ function! UpdateTags()
   call DelTagOfFile(f)
   let resp = system(cmd)
 endfunction
-autocmd BufWritePost *.cpp,*.h,*.c call UpdateTags()
+autocmd BufWritePost *.cpp,*.h,*.c,*.go,*.rb call UpdateTags()
 
 " UltiSnips Config
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
