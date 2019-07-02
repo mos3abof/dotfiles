@@ -36,6 +36,9 @@ elif [[ "$OS" == "Darwin"* ]]; then
       [ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ] && \
           . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
   }
+  export HOMEBREW_NO_INSECURE_REDIRECT=1
+  export HOMEBREW_CASK_OPTS=--require-sha
+  export HOMEBREW_NO_ANALYTICS=1
 fi
 
 shopt -s checkwinsize
