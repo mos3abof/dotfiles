@@ -22,6 +22,8 @@ if [[ "$OS" == "Linux" ]]; then
   alias la='ls -A'
   alias ll='ls -alF'
   alias ls='ls --color=auto'
+  [[ -f /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
+  [[ -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
 elif [[ "$OS" == "Darwin"* ]]; then
   # Brew is slow, so calculate the prefix once
   export BREW_PREFIX="/usr/local/opt"
