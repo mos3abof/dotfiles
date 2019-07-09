@@ -144,6 +144,8 @@ alias gcm='git commit -m'
 complete -F _complete_alias gcm
 alias gcob='git checkout -b'
 complete -F _complete_alias gcob
+alias grb='git rebase'
+complete -F _complete_alias grb
 alias gshow='git show'
 complete -F _complete_alias gshow
 alias gbranch='git branch'
