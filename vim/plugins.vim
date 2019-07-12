@@ -84,3 +84,6 @@ Plugin 'junegunn/goyo.vim'
 " Terraform
 Plugin 'hashivim/vim-terraform'
 Plugin 'juliosueiras/vim-terraform-completion'
+
+" Calendar
+Plugin 'itchyny/calendar.vim'

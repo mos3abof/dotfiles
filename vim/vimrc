@@ -285,3 +285,8 @@ nmap <silent> t<C-g> :TestVisit<CR>
 
 " Terraform
 let g:terraform_fmt_on_save=1
+
+
+" Calendar
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
