@@ -181,3 +181,14 @@ for filename in ~/.bashrc.private*; do
   source "$filename"
 done
 
+
+# Bash completion for helm
+source <(helm completion bash)
+
+complete -C /usr/local/bin/vault vault
+
+# Theatre/kind enabling
+# https://github.com/gocardless/theatre
+function e2e() {
+  export KUBECONFIG="$(kind get kubeconfig-path --name="e2e")"
+}
