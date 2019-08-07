@@ -33,8 +33,11 @@ Bundle 'chrisbra/Colorizer.git'
 " Auto Completion
 Bundle 'Valloric/YouCompleteMe'
 
+
+" Syntax
+Plugin 'dense-analysis/ale'
+
 " Python
-Plugin 'scrooloose/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'kh3phr3n/python-syntax'
 
