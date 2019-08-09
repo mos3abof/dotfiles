@@ -192,3 +192,17 @@ complete -C /usr/local/bin/vault vault
 function e2e() {
   export KUBECONFIG="$(kind get kubeconfig-path --name="e2e")"
 }
+
+# Kubernetes context switcher
+function kcc() {
+  usage() {
+    echo -en "Usage: $0 <context> <namespace>"
+  }
+  if [ $# -eq 2 ]; then
+    kubectx "$1"
+    kubens "$2"
+    export TILLER_NAMESPACE="$2"-tiller
+  else
+    usage
+  fi
+}
