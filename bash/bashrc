@@ -136,9 +136,9 @@ alias gpf='git push -f'
 complete -F _complete_alias gpf
 alias gpl='git pull'
 complete -F _complete_alias gpl
-alias gc='git commit'
+alias gc='git commit -v'
 complete -F _complete_alias gc
-alias gca='git commit --amend'
+alias gca='git commit --amend -v'
 complete -F _complete_alias gca
 alias gcm='git commit -m'
 complete -F _complete_alias gcm
