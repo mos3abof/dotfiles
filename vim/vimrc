@@ -153,8 +153,8 @@ augroup CursorLine
   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
   au WinLeave * setlocal nocursorline
 augroup END
-:hi CursorLine cterm=NONE guibg=darkred
-:hi Visual cterm=NONE guibg=darkred
+":hi CursorLine cterm=NONE guibg=darkred
+":hi Visual cterm=NONE guibg=darkred
 
 " Active Window
 augroup BgHighlight
@@ -293,3 +293,6 @@ let g:calendar_google_task = 1
 
 " Enable spellchecking by default
 set spell
+
+" Set paste/nopaste toggle
+:set pastetoggle=<f5>
