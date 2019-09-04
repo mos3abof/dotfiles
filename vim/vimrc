@@ -272,9 +272,16 @@ let g:fzf_tags_command = 'ctags -R'
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 
+" Identify all *.md file as of FileType markdown
+autocmd BufNewFile,BufRead *.md set filetype=markdown
 " Spell check
 set spelllang=en
 set spellfile=$HOME/.vim/spell/en.utf-8.add
+" Enable spellchecking by default
+" set spell
+
+" Enable spell checking on git commits and markdown files
+autocmd FileType gitcommit,markdown setlocal spell
 
 " Tests
 nmap <silent> t<C-n> :TestNearest<CR>
@@ -291,8 +298,6 @@ let g:terraform_fmt_on_save=1
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
 
-" Enable spellchecking by default
-set spell
 
 " Set paste/nopaste toggle
 :set pastetoggle=<f5>
