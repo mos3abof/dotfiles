@@ -8,6 +8,9 @@ export PATH="/usr/local/sbin:$PATH"
 export GOPATH="$HOME/Projects/go"
 export PATH="$PATH:$GOPATH/bin"
 
+# set editor to vim
+export EDITOR=vim
+
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
   . /usr/local/share/bash-completion/bash_completion
 fi
