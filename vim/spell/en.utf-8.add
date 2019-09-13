@@ -157,3 +157,5 @@ timestamp
 JIRA
 WAL
 wal
+readonly
+cronjob

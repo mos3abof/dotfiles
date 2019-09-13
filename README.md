@@ -1,9 +1,12 @@
-My Dotfiles
-===========
+# Dotfiles
 
-This is an attempt to maintain my dotfiles.
+My dotfiles.
 
-A lot of this is heavily based on [Ahmed
-Soliman](https://github.com/AhmedSoliman/dotfiles)'s dotfiles.
+## Acknowledgment
 
-A big shoutout to my colleagues at @GoCardless.
+This was inspired by:
+
+* [Ahmed Soliman](https://github.com/AhmedSoliman/dotfiles)
+* [Ben Wheatley](https://github.com/benwh/dotfiles)
+* [Lawrence Jones](https://github.com/lawrencejones/dotfiles)
+* [Dyson Simmmons](https://github.com/dyson/dotfiles)
