@@ -163,6 +163,9 @@ augroup BgHighlight
   autocmd WinLeave * set colorcolumn=0
 augroup END
 
+" Removes the underline causes by enabling cursorline:
+highlight clear CursorLine
+
 let g:ycm_confirm_extra_conf = 0
 " Syntastic Config
 set statusline+=%#warningmsg#
