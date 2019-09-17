@@ -144,6 +144,8 @@ alias gpf='git push -f'
 complete -F _complete_alias gpf
 alias gpl='git pull'
 complete -F _complete_alias gpl
+alias gds='git diff --staged'
+complete -F _complete_alias gds
 alias gc='git commit -v'
 complete -F _complete_alias gc
 alias gca='git commit --amend -v'
@@ -156,6 +158,8 @@ alias glg='git log --pretty=format:"%h %s" --graph'
 complete -F _complete_alias glg
 alias glp="git log --pretty=oneline"
 complete -F _complete_alias glp
+alias glf="git log --reverse --abbrev-commit --format='%h: %s%n%n%b' origin/master...HEAD"
+complete -F _complete_alias glf
 alias grb='git rebase'
 complete -F _complete_alias grb
 alias gshow='git show'
@@ -168,6 +172,8 @@ alias greset='git reset'
 complete -F _complete_alias greset
 alias gclone='git clone'
 complete -F _complete_alias gclone
+alias gfetch='git fetch'
+complete -F _complete_alias gfetch
 #alias gprune = 'git branch -r | awk \'{print $1}\' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk \'{print $1}\' | xargs git branch -d'
 # scmpuff for sane git workflow
 # Other aliases included in it:
