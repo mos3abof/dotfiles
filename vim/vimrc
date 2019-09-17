@@ -27,7 +27,6 @@ set title
 set ruler
 set showbreak=… " show ellipsis at breaking
 set linebreak
-set cindent
 set hlsearch
 set ignorecase
 set smartcase
