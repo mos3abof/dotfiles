@@ -158,7 +158,7 @@ alias glg='git log --pretty=format:"%h %s" --graph'
 complete -F _complete_alias glg
 alias glp="git log --pretty=oneline"
 complete -F _complete_alias glp
-alias glf="git log --reverse --abbrev-commit --format='%h: %s%n%n%b' origin/master...HEAD"
+alias glf="git log --reverse --abbrev-commit --format='%Cgreen%h: %s%Creset %n%n%b' origin/master...HEAD"
 complete -F _complete_alias glf
 alias grb='git rebase'
 complete -F _complete_alias grb
