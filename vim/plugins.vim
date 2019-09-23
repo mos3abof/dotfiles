@@ -2,7 +2,6 @@
 Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'derekwyatt/vim-fswitch'
-"Plugin 'vim-scripts/swap-parameters'
 Plugin 'bling/vim-bufferline'
 
 " Formatting
@@ -81,12 +80,6 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Tests
 Plugin 'janko/vim-test'
 
-" Goyo
-Plugin 'junegunn/goyo.vim'
-
 " Terraform
 Plugin 'hashivim/vim-terraform'
 Plugin 'juliosueiras/vim-terraform-completion'
-
-" Calendar
-Plugin 'itchyny/calendar.vim'
