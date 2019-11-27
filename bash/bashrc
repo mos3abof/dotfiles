@@ -18,6 +18,12 @@ fi
 # Bash completion for kubectl
 source <(kubectl completion bash)
 
+# Bash completion for minikube
+if command -v minikube &>/dev/null
+then
+  eval "$(minikube completion bash)"
+fi
+
 # Bash completion for anu
 if [[ `anu --help` ]]; then
   source <(anu completion bash)
@@ -49,6 +55,7 @@ elif [[ "$OS" == "Darwin"* ]]; then
   export HOMEBREW_NO_INSECURE_REDIRECT=1
   export HOMEBREW_CASK_OPTS=--require-sha
   export HOMEBREW_NO_ANALYTICS=1
+  export GOOGLE_APPLICATION_CREDENTIALS=/Users/mibrahim/.config/gcloud/legacy_credentials/mibrahim@gocardless.com/adc.json
 fi
 
 shopt -s checkwinsize

@@ -1,8 +1,8 @@
 " File Navigation
 Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'derekwyatt/vim-fswitch'
-Plugin 'bling/vim-bufferline'
+"Plugin 'derekwyatt/vim-fswitch'
+"Plugin 'bling/vim-bufferline'
 
 " Formatting
 Plugin 'Chiel92/vim-autoformat'
@@ -11,12 +11,12 @@ Plugin 'ambv/black'
 " Comments
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-surround'
-Plugin 'jiangmiao/auto-pairs'
+"Plugin 'jiangmiao/auto-pairs'
 
 
 " Snippets
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+"Plugin 'SirVer/ultisnips'
+"Plugin 'honza/vim-snippets'
 
 " Appearance
 Plugin 'vim-airline/vim-airline'
@@ -27,11 +27,10 @@ Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'christoomey/vim-tmux-navigator'
 
 " HTML
-Bundle 'chrisbra/Colorizer.git'
+"Bundle 'chrisbra/Colorizer.git'
 
 " Auto Completion
 Bundle 'Valloric/YouCompleteMe'
-
 
 " Syntax
 Plugin 'dense-analysis/ale'
@@ -48,13 +47,13 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Bundle 'majutsushi/tagbar'
 
 " Thrift
-Bundle 'solarnz/thrift.vim'
+"Bundle 'solarnz/thrift.vim'
 
 " Rust
 Bundle 'rust-lang/rust.vim'
 
 " Search
-Bundle 'jremmen/vim-ripgrep'
+"Bundle 'jremmen/vim-ripgrep'
 Plugin 'mileszs/ack.vim'
 
 " Golang
@@ -78,7 +77,7 @@ Plugin 'idanarye/vim-merginal'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " Tests
-Plugin 'janko/vim-test'
+"Plugin 'janko/vim-test'
 
 " Terraform
 Plugin 'hashivim/vim-terraform'
