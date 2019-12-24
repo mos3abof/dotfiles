@@ -24,13 +24,6 @@ then
   eval "$(minikube completion bash)"
 fi
 
-# Bash completion for anu
-if [[ `anu --help` ]]; then
-  source <(anu completion bash)
-fi
-
-# Bash completion for git
-
 OS=$(uname)
 if [[ "$OS" == "Linux" ]]; then
   alias l='ls -CF'
@@ -40,6 +33,11 @@ if [[ "$OS" == "Linux" ]]; then
   [[ -f /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
   [[ -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
 elif [[ "$OS" == "Darwin"* ]]; then
+  # Bash completion for anu
+  if [[ `anu --help` ]]; then
+    source <(anu completion bash)
+  fi
+
   # Brew is slow, so calculate the prefix once
   export BREW_PREFIX="/usr/local/opt"
   export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
