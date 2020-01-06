@@ -82,3 +82,10 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Terraform
 Plugin 'hashivim/vim-terraform'
 Plugin 'juliosueiras/vim-terraform-completion'
+
+" Javascript
+Plugin 'mxw/vim-jsx'
+Plugin 'pangloss/vim-javascript'
+
+" Jsonnet
+Plugin 'google/vim-jsonnet'
