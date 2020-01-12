@@ -160,6 +160,9 @@ augroup END
 ":hi CursorLine cterm=NONE guibg=darkred
 ":hi Visual cterm=NONE guibg=darkred
 
+" JS Config
+au BufNewFile,BufRead *.libsonnet set filetype=javascript
+
 " Active Window
 augroup BgHighlight
   autocmd!
@@ -324,3 +327,19 @@ augroup whitespace
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
   autocmd BufWinLeave * call clearmatches()
 augroup END
+
+" Golang
+" let g:go_auto_sameids              = 1
+" TODO: it would be nice to have this, but for it to not interfere with ALE
+let g:go_auto_type_info              = 0
+let g:go_fmt_command                 = "goimports"
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types       = 1
+let g:go_highlight_fields            = 1
+let g:go_highlight_functions         = 1
+let g:go_highlight_methods           = 1
+let g:go_highlight_operators         = 1
+let g:go_highlight_structs           = 1
+let g:go_highlight_types             = 1
+let g:go_addtags_transform           = "snakecase"
+let g:go_def_mode                    = "godef"
