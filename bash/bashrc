@@ -27,9 +27,9 @@ fi
 OS=$(uname)
 if [[ "$OS" == "Linux" ]]; then
   alias l='ls -CF'
-  alias la='ls -A'
-  alias ll='ls -alF'
-  alias ls='ls --color=auto'
+  alias la='ls -A --classify'
+  alias ll='ls -alF --classify'
+  alias ls='ls --color=auto --classify'
   [[ -f /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
   [[ -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
 elif [[ "$OS" == "Darwin"* ]]; then

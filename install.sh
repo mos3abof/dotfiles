@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set x
+set -x
 set -o nounset
 set -o errexit
 
