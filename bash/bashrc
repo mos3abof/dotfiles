@@ -76,10 +76,9 @@ export HISTSIZE=10000 # Keep 10000 lines in session history
 export HISTFILESIZE=100000 # Truncate file at 100,000 lines
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups:ignorespace:erasedups
-export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs"
+export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs:fg:gl"
 # Don't overwrite history if using multiple bash sessions
 shopt -s histappend
-
 # Don't immediately execute command when using history substitution
 shopt -s histverify
 
