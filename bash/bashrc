@@ -178,7 +178,7 @@ alias gclone='git clone'
 complete -F _complete_alias gclone
 alias gfetch='git fetch'
 complete -F _complete_alias gfetch
-#alias gprune = 'git branch -r | awk \'{print $1}\' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk \'{print $1}\' | xargs git branch -d'
+alias gprune="git branch -r | awk '{print \$1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print \$1}' | xargs git branch -d "
 # scmpuff for sane git workflow
 # Other aliases included in it:
 #alias gs='scmpuff_status'
