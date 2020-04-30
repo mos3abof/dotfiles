@@ -89,3 +89,6 @@ Plugin 'pangloss/vim-javascript'
 
 " Jsonnet
 Plugin 'google/vim-jsonnet'
+
+" Org mode
+Plugin 'jceb/vim-orgmode'

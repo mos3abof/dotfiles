@@ -3,7 +3,7 @@
 export PS1="[LOCAL] \w $ "
 export CLICOLOR=1
 
-export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/bin:$PATH"
 
 export GOPATH="$HOME/Projects/go"
 export PATH="$PATH:$GOPATH/bin"
@@ -229,3 +229,6 @@ function kcc() {
     usage
   fi
 }
+
+export KUBEBUILDER_ASSETS="/usr/local/opt/kubebuilder/assets"
+
