@@ -68,3 +68,4 @@ else
   " nnoremap <silent> <M-l>    :vertical resize +2<CR>
 endif
 
+nnoremap <silent> <F5> :call LoadVirtualEnv()<CR>

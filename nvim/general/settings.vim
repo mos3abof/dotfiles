@@ -2,6 +2,8 @@ set iskeyword+=-                      	" treat dash separated words as a word te
 set formatoptions-=cro                  " Stop newline continution of comments
 
 if !exists('g:vscode')
+  let g:python_recommended_style = 0
+
   syntax enable                           " Enables syntax highlighing
   set hidden                              " Required to keep multiple buffers open multiple buffers
   set nowrap                              " Display long lines as just one line
@@ -16,6 +18,7 @@ if !exists('g:vscode')
   set t_Co=256                            " Support 256 colors
   set conceallevel=0                      " So that I can see `` in markdown files
   set tabstop=2                           " Insert 2 spaces for a tab
+  set softtabstop=2                       " .
   set shiftwidth=2                        " Change the number of space characters inserted for indentation
   set smarttab                            " Makes tabbing smarter will realize you have 2 vs 4
   set expandtab                           " Converts tabs to spaces
@@ -64,4 +67,7 @@ if !exists('g:vscode')
 
   " Set .aurora to python
   au BufReadPost *.aurora set syntax=python
+
+  " Always set spell in git commits
+  autocmd FileType gitcommit setlocal spell
 endif

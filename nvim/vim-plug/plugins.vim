@@ -45,8 +45,8 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Closetags
     Plug 'alvan/vim-closetag'
     " Themes
-    Plug 'christianchiarulli/onedark.vim'
-    " Plug 'kaicataldo/material.vim'
+    " Plug 'christianchiarulli/onedark.vim'
+    Plug 'kaicataldo/material.vim', {'branch': 'main'}
     " Plug 'NLKNguyen/papercolor-theme'
     " Plug 'tomasiser/vim-code-dark'
     " Intellisense
@@ -87,7 +87,8 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Echo doc
     " Plug 'Shougo/echodoc.vim'
     " Interactive code
-    Plug 'ChristianChiarulli/codi.vim'
+    " Plug 'ChristianChiarulli/codi.vim'
+    Plug 'metakirby5/codi.vim'
     " Vim Wiki
     " Plug 'https://github.com/vimwiki/vimwiki.git'
     " Tmux Integration
@@ -113,6 +114,9 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'Chiel92/vim-autoformat'
     " Projectionist
     Plug 'tpope/vim-projectionist'
+    " Virtualenv
+    Plug 'jmcantrell/vim-virtualenv'
+    " Plug 'pantsbuild/vim-pants'
   endif
 
 call plug#end()

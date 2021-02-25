@@ -19,7 +19,7 @@ if exists('g:vscode')
 else
   " Ordinary neovim
   source $HOME/.config/nvim/themes/syntax.vim
-  source $HOME/.config/nvim/themes/onedark.vim
+  source $HOME/.config/nvim/themes/material.vim
   source $HOME/.config/nvim/themes/airline.vim
   source $HOME/.config/nvim/plug-config/rnvimr.vim
   source $HOME/.config/nvim/plug-config/fzf.vim
@@ -47,7 +47,6 @@ endif
 if !empty(glob("./paths.vim"))
   source $HOME/.config/nvim/paths.vim
 endif
-let g:polyglot_disabled = ['csv']
 
 " Python
 " https://realpython.com/python-debugging-pdb/ " breakpoint syntax is really cool
