@@ -1,0 +1,164 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/mosab/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+# ZSH_THEME="spaceship"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
+# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git fd fzf autojump brew docker docker-compose httpie jira kubectl python rust sublime vault virtualenv)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+export CLICOLOR=1
+export EDITOR="nvim"
+export VISUAL="$EDITOR"
+
+alias vim="nvim"
+alias vi="nvim"
+alias oldvim="vim"
+
+export LC_ALL=en_GB.UTF-8
+export LANG=en_GB.UTF-8
+export LANGUAGE=en_GB.UTF-8
+
+export GOPATH="$HOME/workspace/go"
+export PATH="$PATH:$GOPATH/bin"
+
+# Aliases
+alias ll='ls -lhA'
+alias mkdir='mkdir -p -v'
+alias recent="ls -lAt | head"
+alias rg='rg --hidden'
+alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
+alias pg11="docker run --rm  --name postgres-11.2 -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:11.2"
+alias pg94="docker run --rm  --name postgres-9.4 -e POSTGRES_PASSWORD=docker -d -p 5431:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:9.4"
+alias k='kubectl'
+
+# Bash history commands
+export HISTSIZE=10000 # Keep 10000 lines in session history
+export HISTFILESIZE=100000 # Truncate file at 100,000 lines
+# don't put duplicate lines in the history. See bash(1) for more options
+export HISTCONTROL=ignoredups:ignorespace:erasedups
+export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs:fg:gl"
+# Don't overwrite history if using multiple bash sessions
+# setopt -s histappend
+# Don't immediately execute command when using history substitution
+# setopt -s histverify
+
+alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
+
+
+# Git setup
+alias g=git
+alias gp='git push'
+alias gpf='git push --force-with-lease'
+alias gpl='git pull'
+alias gds='git diff --staged'
+alias gc='git commit -v'
+alias gca='git commit --amend -v'
+alias gcm='git commit -m'
+alias gcob='git checkout -b'
+alias glg='git log --pretty=format:"%h %s" --graph'
+alias glp="git log --pretty=oneline"
+alias glf="git log --reverse --abbrev-commit --format='%Cgreen%h: %s%Creset %n%n%b' origin/master...HEAD"
+alias grb='git rebase'
+alias gshow='git show'
+alias gbranch='git branch'
+alias gstash='git stash'
+alias greset='git reset'
+alias gclone='git clone'
+alias gfetch='git fetch'
+alias gprune="git branch -r | awk '{print \$1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print \$1}' | xargs git branch -d "
+eval "$(scmpuff init -s)"
