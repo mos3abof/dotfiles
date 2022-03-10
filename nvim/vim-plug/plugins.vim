@@ -93,7 +93,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Plug 'https://github.com/vimwiki/vimwiki.git'
     " Tmux Integration
     " Formatting
-    Plug 'fisadev/vim-isort'
+    " Plug 'fisadev/vim-isort'
     Plug 'mindriot101/vim-yapf'
     " Tagbar
     Plug 'majutsushi/tagbar'
