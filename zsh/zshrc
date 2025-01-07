@@ -125,22 +125,30 @@ export LC_ALL=en_GB.UTF-8
 export LANG=en_GB.UTF-8
 export LANGUAGE=en_GB.UTF-8
 
-# Golang path
-export GOPATH="$HOME/workspace/go"
-export PATH="$PATH:$GOPATH/bin"
+# # Golang path
+# export GOPATH="$HOME/workspace/go"
+# export PATH="$PATH:$GOPATH/bin"
 
 # local bin path
+# Other bin paths
 export LOCAL_BIN="/home/mosab/.local/bin"
-export PATH="$PATH:$LOCAL_BIN"
+if [[ -d "${LOCAL_BIN}" && ! -L "${LOCAL_BIN}" ]] ; then
+  export PATH="$PATH:$LOCAL_BIN"
+fi
+export BREW_BIN="/opt/homebrew/bin"
+if [[ -d "${BREW_BIN}" && ! -L "${BREW_BIN}" ]] ; then
+  export PATH=$PATH:$BREW_BIN
+fi
 
 # Aliases
+alias ls="ls -a --color=auto"
 alias ll='ls -lhA'
 alias mkdir='mkdir -p -v'
 alias recent="ls -lAt | head"
 alias rg='rg --hidden'
 alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
-alias pg11="docker run --rm  --name postgres-11.2 -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:11.2"
-alias pg94="docker run --rm  --name postgres-9.4 -e POSTGRES_PASSWORD=docker -d -p 5431:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:9.4"
+# alias pg11="docker run --rm  --name postgres-11.2 -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:11.2"
+# alias pg94="docker run --rm  --name postgres-9.4 -e POSTGRES_PASSWORD=docker -d -p 5431:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:9.4"
 
 # kubernetes aliases
 alias k='kubectl'
@@ -161,7 +169,6 @@ alias keti="kubectl exec -ti"
 alias kdel="kubectl delete"
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
 
 # Bash history commands
 export HISTSIZE=10000 # Keep 10000 lines in session history
@@ -209,6 +216,7 @@ alias gfetch='git fetch'
 alias gprune="git branch -r | awk '{print \$1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print \$1}' | xargs git branch -d "
 alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
 eval "$(scmpuff init -s)"
+# eval "$(zoxide init zsh)"
 
 autoload -U colors && colors
 PS1="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
@@ -219,10 +227,19 @@ PROMPT='$(kube_ps1)'$PROMPT # or RPROMPT='$(kube_ps1)'
 export PYTHONDONTWRITEBYTECODE=1
 
 
-bindkey "^[[A" history-search-backward 
-bindkey "^[[B" history-search-forward
+# bindkey "^[[A" history-search-backward 
+# bindkey "^[[B" history-search-forward
 
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if [[ -f ~/.p10k.zsh ]] then; 
+  source ~/.p10k.zsh
+fi
+
+if [[ -f /var/www/phorge.mosab.me/arcanist/bin/arc ]] then;
+  export PATH="$PATH:/var/www/phorge.mosab.me/arcanist/bin/"
+fi
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/terraform terraform
