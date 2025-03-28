@@ -1,0 +1,234 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+
+export PS1="[LOCAL] \w $ "
+export CLICOLOR=1
+
+export PATH="/usr/local/bin:$PATH"
+
+export GOPATH="$HOME/Projects/go"
+export PATH="$PATH:$GOPATH/bin"
+
+# set editor to vim
+export EDITOR=vim
+
+if [ -f /usr/local/share/bash-completion/bash_completion ]; then
+  . /usr/local/share/bash-completion/bash_completion
+fi
+
+# Bash completion for kubectl
+source <(kubectl completion bash)
+
+# Bash completion for minikube
+if command -v minikube &>/dev/null
+then
+  eval "$(minikube completion bash)"
+fi
+
+OS=$(uname)
+if [[ "$OS" == "Linux" ]]; then
+  alias l='ls -CF'
+  alias la='ls -A --classify'
+  alias ll='ls -alF --classify'
+  alias ls='ls --color=auto --classify'
+  [[ -f /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
+  [[ -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
+elif [[ "$OS" == "Darwin"* ]]; then
+  # Bash completion for anu
+  if [[ `anu --help` ]]; then
+    source <(anu completion bash)
+  fi
+
+  # Brew is slow, so calculate the prefix once
+  export BREW_PREFIX="/usr/local/opt"
+  export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
+  [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && source $(brew --prefix)/etc/profile.d/autojump.sh
+  alias tar=/usr/local/bin/gtar
+
+  #Bash completion for git on mac
+  [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion || {
+      # if not found in /usr/local/etc, try the brew --prefix location
+      [ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ] && \
+          . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+  }
+  export HOMEBREW_NO_INSECURE_REDIRECT=1
+  export HOMEBREW_CASK_OPTS=--require-sha
+  export HOMEBREW_NO_ANALYTICS=1
+  export GOOGLE_APPLICATION_CREDENTIALS=/Users/mibrahim/.config/gcloud/legacy_credentials/mibrahim@gocardless.com/adc.json
+fi
+
+shopt -s checkwinsize
+
+umask 022
+
+# Aliases
+alias ll='ls -lhA'
+alias mkdir='mkdir -p -v'
+alias recent="ls -lAt | head"
+alias rg='rg --hidden'
+alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
+alias pg11="docker run --rm  --name postgres-11.2 -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:11.2"
+alias pg94="docker run --rm  --name postgres-9.4 -e POSTGRES_PASSWORD=docker -d -p 5431:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres:9.4"
+alias k='kubectl'
+complete -F _complete_alias k
+
+# Bash history commands
+export HISTSIZE=10000 # Keep 10000 lines in session history
+export HISTFILESIZE=100000 # Truncate file at 100,000 lines
+# don't put duplicate lines in the history. See bash(1) for more options
+export HISTCONTROL=ignoredups:ignorespace:erasedups
+export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs:fg:gl"
+# Don't overwrite history if using multiple bash sessions
+shopt -s histappend
+# Don't immediately execute command when using history substitution
+shopt -s histverify
+
+# Bash eternal history:
+# http://www.debian-administration.org/articles/543
+#[[ ! -f $HOME/.bash_eternal_history ]] && (touch $HOME/.bash_eternal_history; chmod 0600 $HOME/.bash_eternal_history)
+#export HISTTIMEFORMAT="%s "
+# Append, because z.sh may have already tampered with PROMPT_COMMAND
+#PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
+
+#[ -s "$HOME/.autoenv/activate.sh" ] && source "$HOME/.autoenv/activate.sh"
+#[ -f "${BREW_PREFIX}/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/autoenv/activate.sh"
+#[ -s "$HOME/src/liquidprompt/liquidprompt" ] && source "$HOME/src/liquidprompt/liquidprompt"
+
+# TODO is there any practical difference between my version (top) and the vendored version (bottom)?
+# [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# omit --follow, because otherwise it spews errors about broken symlinks all
+# over the place (e.g. pruned go dependencies)
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*"'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--height 100%'
+# why is no-reverse required??
+export FZF_CTRL_T_OPTS='--height 100% --no-reverse --bind ctrl-j:down,ctrl-k:up'
+
+[ -x "$(command -v rbenv)" ] && eval "$(rbenv init -)"
+alias be='bundle exec'
+alias c="pbcopy"
+alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
+
+gh() {
+	if git remote > /dev/null; then
+		URL=$(git remote -v | head -n1 | awk '/fetch/{print $2}' | sed -Ee 's#(git@|git://)#http://#' -e 's@com:@com/@')
+		echo open "$URL"
+	fi
+}
+
+diffocop() {
+	(
+		cd "$(git rev-parse --show-toplevel)" && \
+			git diff master --name-only --diff-filter=ACMRTUXB \
+			| grep '\.rb$' \
+			| tr '\n' ' ' \
+			| xargs bundle exec rubocop
+	)
+}
+
+for filename in ~/.bashrc.private*; do
+	# This is to ensure we don't break if there's nothing that matches the glob
+	[ -e "$filename" ] || continue
+	source "$filename"
+done
+
+export PS1="[LOCAL] \w $ "
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*"'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--height 100%'
+export FZF_CTRL_T_OPTS='--height 100% --no-reverse --bind ctrl-j:down,ctrl-k:up'
+
+# Git setup
+alias g=git
+complete -F _complete_alias g
+alias gp='git push'
+complete -F _complete_alias gp
+alias gpf='git push --force-with-lease'
+complete -F _complete_alias gpf
+alias gpl='git pull'
+complete -F _complete_alias gpl
+alias gds='git diff --staged'
+complete -F _complete_alias gds
+alias gc='git commit -v'
+complete -F _complete_alias gc
+alias gca='git commit --amend -v'
+complete -F _complete_alias gca
+alias gcm='git commit -m'
+complete -F _complete_alias gcm
+alias gcob='git checkout -b'
+complete -F _complete_alias gcob
+alias glg='git log --pretty=format:"%h %s" --graph'
+complete -F _complete_alias glg
+alias glp="git log --pretty=oneline"
+complete -F _complete_alias glp
+alias glf="git log --reverse --abbrev-commit --format='%Cgreen%h: %s%Creset %n%n%b' origin/master...HEAD"
+complete -F _complete_alias glf
+alias grb='git rebase'
+complete -F _complete_alias grb
+alias gshow='git show'
+complete -F _complete_alias gshow
+alias gbranch='git branch'
+complete -F _complete_alias gbranch
+alias gstash='git stash'
+complete -F _complete_alias gstash
+alias greset='git reset'
+complete -F _complete_alias greset
+alias gclone='git clone'
+complete -F _complete_alias gclone
+alias gfetch='git fetch'
+complete -F _complete_alias gfetch
+alias gprune="git branch -r | awk '{print \$1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print \$1}' | xargs git branch -d "
+# scmpuff for sane git workflow
+# Other aliases included in it:
+#alias gs='scmpuff_status'
+#alias ga='git add'
+#alias gd='git diff'
+#alias gl='git log'
+#alias gco='git checkout'
+#alias grs='git reset'
+eval "$(scmpuff init -s)"
+complete -F _complete_alias gs
+complete -F _complete_alias gl
+complete -F _complete_alias ga
+complete -F _complete_alias gd
+complete -F _complete_alias gco
+complete -F _complete_alias grs
+
+# Everything that shouldn't be on a public repo is here
+[ -f ~/.bashrc.private ] && source ~/.bashrc.private
+
+for filename in ~/.bashrc.private*; do
+  # This is to ensure we don't break if there's nothing that matches the glob
+  [ -e "$filename" ] || continue
+  source "$filename"
+done
+
+
+# Bash completion for helm
+source <(helm completion bash)
+
+complete -C /usr/local/bin/vault vault
+
+# Theatre/kind enabling
+# https://github.com/gocardless/theatre
+function e2e() {
+  export KUBECONFIG="$(kind get kubeconfig-path --name="e2e")"
+}
+
+# Kubernetes context switcher
+function kcc() {
+  usage() {
+    echo -en "Usage: $0 <context> <namespace>"
+  }
+  if [ $# -eq 2 ]; then
+    kubectx "$1"
+    kubens "$2"
+    export TILLER_NAMESPACE="$2"-tiller
+  else
+    usage
+  fi
+}
+
+export KUBEBUILDER_ASSETS="/usr/local/opt/kubebuilder/assets"
+

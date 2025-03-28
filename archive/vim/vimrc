@@ -1,0 +1,345 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+source ~/.vim/plugins.vim
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" General Settings
+syntax on
+" Leader is Space
+let mapleader = ' '
+let maplocalleader = '\'
+set nu incsearch
+set backspace=indent,eol,start
+set encoding=utf8
+set tm=500
+set cmdheight=1
+set title
+set ruler
+set showbreak=… " show ellipsis at breaking
+set linebreak
+set hlsearch
+set ignorecase
+set smartcase
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set laststatus=2 " Show Vim Status Line All The Time
+set mouse=a
+let c_space_errors=1
+match ErrorMsg /\s\+$\| \+\ze\t/
+
+set ruler
+set showmatch
+set tags=tags;/
+set undolevels=1000
+set modelines=0
+set cursorline
+
+" My Style
+set expandtab
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+
+" Disable Arrow Keys
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
+" Edit vimr configuration file
+nnoremap <Leader>ve :e $MYVIMRC<CR>
+" " Reload vimr configuration file
+nnoremap <Leader>vr :source $MYVIMRC<CR>
+
+" 80 characters
+set textwidth=80
+set colorcolumn=+1
+set number
+set relativenumber
+set numberwidth=5
+
+" Toggle folds with Tab
+nnoremap <Tab> za
+" User karabiner to fix C-i and Tab problem
+nnoremap <F6> <C-i>
+
+" Better j, k
+nnoremap j gj
+nnoremap k gk
+
+" map leader + s to save
+"nmap <leader>s :w<cr>
+
+" Switch between header and cpp files
+" nmap <leader>h :A<CR>
+
+" quickly close window
+"nmap <leader>x :x<cr>
+"nmap <leader>X :q!<cr>
+
+" Better indentation in Visual Mode
+vnoremap < <gv
+vnoremap > >gv
+
+" Disable Ex Mode
+noremap Q <NOP>
+
+"Split more natural direction
+set splitbelow
+set splitright
+
+" NERDTree Shortcuts
+map <C-n> :NERDTreeToggle<cr>
+map <silent> <Leader>n :NERDTreeToggle<cr>
+map <silent> <Leader>v :NERDTreeFind<cr>
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+silent! map <F3> :NERDTreeFind<CR>
+let g:NERDTreeMapActivateNode="<F3>"
+let NERDTreeShowHidden=1
+
+" CtrlP Configuration
+set wildignore+=*/target/*
+
+let g:ctrlp_working_path_mode = 'a'
+let g:ctrlp_extensions = ['autoignore', 'tag']
+let g:ctrlp_cmd = 'CtrlP'
+
+" C++
+let g:cpp_class_scope_highlight = 1
+
+" Formatting
+noremap <C-F> :Autoformat<CR>
+
+" TagList
+nmap ,tt :TagbarToggle<cr>
+
+" Python Config
+let g:flake8_cmd='/usr/local/bin/flake8'
+autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
+let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id} {msg}]"'
+let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+let g:syntastic_mode_map = {'passive_filetypes': ["java", "cpp", "php"]}
+" Point YCM to the Pipenv created virtualenv, if possible
+" At first, get the output of 'pipenv --venv' command.
+let pipenv_venv_path = system('pipenv --venv')
+" The above system() call produces a non zero exit code whenever
+" a proper virtual environment has not been found.
+" So, second, we only point YCM to the virtual environment when
+" the call to 'pipenv --venv' was successful.
+" Remember, that 'pipenv --venv' only points to the root directory
+" of the virtual environment, so we have to append a full path to
+" the python executable.
+if shell_error == 0
+  let venv_path = substitute(pipenv_venv_path, '\n', '', '')
+  let g:ycm_python_binary_path = venv_path . '/bin/python'
+else
+  let g:ycm_python_binary_path = 'python'
+endif
+
+set background=dark
+colorscheme PaperColor
+
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
+":hi CursorLine cterm=NONE guibg=darkred
+":hi Visual cterm=NONE guibg=darkred
+
+" JS Config
+au BufNewFile,BufRead *.libsonnet set filetype=javascript
+
+" Active Window
+augroup BgHighlight
+  autocmd!
+  autocmd WinEnter * set colorcolumn=80
+  autocmd WinLeave * set colorcolumn=0
+augroup END
+
+" Removes the underline causes by enabling cursorline:
+highlight clear CursorLine
+
+let g:ycm_confirm_extra_conf = 0
+" Syntastic Config
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" YCM Config
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_min_num_identifier_candidate_chars = 4
+let g:ycm_min_num_of_chars_for_completion = 4
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_complete_in_comments = 0
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_error_symbol = 'x'
+let g:ycm_warning_symbol = '!'
+let g:ycm_server_keep_logfiles = 1
+
+nnoremap <leader>pg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>pd :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>pc :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>t :YcmCompleter GetType<CR>
+
+" cctags
+" cctags auto updating
+function! DelTagOfFile(file)
+  let fullpath = a:file
+  let cwd = getcwd()
+  let tagfilename = cwd . "/tags"
+  let f = substitute(fullpath, cwd . "/", "", "")
+  let f = escape(f, './')
+  let cmd = 'sed -i "/' . f . '/d" "' . tagfilename . '"'
+  let resp = system(cmd)
+endfunction
+
+function! UpdateTags()
+  let f = expand("%:p")
+  let cwd = getcwd()
+  let tagfilename = cwd . "/tags"
+  let cmd = 'ctags -a -f ' . tagfilename . ' --c++-kinds=+p --fields=+iaS --extra=+q ' . '"' . f . '"'
+  call DelTagOfFile(f)
+  let resp = system(cmd)
+endfunction
+autocmd BufWritePost *.cpp,*.h,*.c,*.go,*.rb call UpdateTags()
+
+" UltiSnips Config
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:ycm_key_list_previous_completion=['<Up>']
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsListSnippets="<c-s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+let g:ycm_use_ultisnips_completer = 1
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+let g:AutoPairsMapSpace=0
+
+autocmd BufWritePre *.c :%s/\s\+$//e
+autocmd BufWritePre *.cpp :%s/\s\+$//e
+autocmd BufWritePre *.py :%s/\s\+$//e
+
+" C++ Moving between headers and Cpp files
+" Read: Open file
+nmap <silent> <Leader>of :FSHere<cr>
+" Read Open Left (split)
+nmap <silent> <Leader>oh :FSSplitLeft<cr>
+
+" Read Open Right (split)
+nmap <silent> <Leader>ol :FSSplitRight<cr>
+
+" Read Open Above (split)
+nmap <silent> <Leader>ok :FSSplitAbove<cr>
+
+" Read Open Below (split)
+nmap <silent> <Leader>oj :FSSplitBelow<cr>
+
+" Same mappings but without splitting
+nmap <silent> <Leader>oH :FSLeft<cr>
+nmap <silent> <Leader>oL :FSRight<cr>
+nmap <silent> <Leader>oK :FSAbove<cr>
+nmap <silent> <Leader>oJ :FSBelow<cr>
+
+"fzf setup
+set rtp+=/usr/local/opt/fzf
+noremap <silent> <Leader>f :Files!<CR>
+" noremap <silent> <Leader>f :call fzf#run({'window': 'execute (tabpagenr()-1)."tabnew"'})<CR>
+" noremap <silent> <Leader>f :call fzf#run({'down': '50'})<CR>
+noremap <silent> <Leader>b :Buffers!<CR>
+noremap <silent> <Leader>a :Tags<CR>
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
+
+" [Commands] --expect expression for directly executing the command
+let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+
+" Identify all *.md file as of FileType markdown
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+" Spell check
+set spelllang=en
+set spellfile=$HOME/.vim/spell/en.utf-8.add
+" Enable spellchecking by default
+" set spell
+
+" Enable spell checking on git commits and markdown files
+autocmd FileType gitcommit,markdown setlocal spell
+
+" Tests
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+
+" Terraform
+let g:terraform_fmt_on_save=1
+
+" Set paste/nopaste toggle
+:set pastetoggle=<f5>
+
+" strip trailing whitespace
+fun! <SID>StripTrailingWhitespaces()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
+
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+" Whitespace fixes
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+augroup whitespace
+  autocmd!
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
+augroup END
+
+" Golang
+" let g:go_auto_sameids              = 1
+" TODO: it would be nice to have this, but for it to not interfere with ALE
+let g:go_auto_type_info              = 0
+let g:go_fmt_command                 = "goimports"
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types       = 1
+let g:go_highlight_fields            = 1
+let g:go_highlight_functions         = 1
+let g:go_highlight_methods           = 1
+let g:go_highlight_operators         = 1
+let g:go_highlight_structs           = 1
+let g:go_highlight_types             = 1
+let g:go_addtags_transform           = "snakecase"
+let g:go_def_mode                    = "godef"
