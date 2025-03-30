@@ -247,12 +247,16 @@ if [[ -f /var/www/phorge.mosab.me/arcanist/bin/arc ]] then;
   export PATH="$PATH:/var/www/phorge.mosab.me/arcanist/bin/"
 fi
 
+export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
+export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+
 ########################
 # shell ux configuration
 ########################
 autoload -U colors && colors
 PS1="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
 PROMPT='$(kube_ps1)'$PROMPT # or RPROMPT='$(kube_ps1)'
+
 
 # Powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
