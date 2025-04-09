@@ -8,3 +8,4 @@ proximity-sort
 cargo-deny
 cargo-license
 cargo-workspaces
+wasm-pack
