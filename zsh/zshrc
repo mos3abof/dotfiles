@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=~HOME/.local/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -215,6 +215,7 @@ export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs:fg:gl"
 # git configurations
 ####################
 alias g=git
+alias ginit='git init'
 alias gp='git push'
 alias gpf='git push --force-with-lease'
 alias gpl='git pull'
@@ -247,16 +248,12 @@ if [[ -f /var/www/phorge.mosab.me/arcanist/bin/arc ]] then;
   export PATH="$PATH:/var/www/phorge.mosab.me/arcanist/bin/"
 fi
 
-export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
-export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
-
 ########################
 # shell ux configuration
 ########################
 autoload -U colors && colors
 PS1="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
 PROMPT='$(kube_ps1)'$PROMPT # or RPROMPT='$(kube_ps1)'
-
 
 # Powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -279,7 +276,9 @@ source <(kubectl completion zsh)  # set up autocomplete in zsh into the current 
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 KUBECONFIG=~/.kube/config
 
-
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 #####################
 # Neon related config
@@ -300,4 +299,3 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 alias yarn-enable='. "$NVM_DIR/nvm.sh"; corepack enable' # https://github.com/neondatabase/cloud?tab=readme-ov-file#getting-started
-
