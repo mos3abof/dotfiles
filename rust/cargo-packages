@@ -9,5 +9,4 @@ cargo-deny
 cargo-license
 cargo-workspaces
 wasm-pack
-git-stack
-git-branch-stash-cli
+zoxide
