@@ -25,6 +25,7 @@ vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
 
 -- Jsonnet configuration following Databricks style guide
 vim.g.jsonnet_fmt_options = "--string-style d --max-width 100 --indent 2 --sort-imports --comment-style //"
+-- vim.g.jsonnet_fmt_options = "--string-style d"
 
 -- Additional jsonnet settings for better development experience
-vim.g.jsonnet_fold_imports = 1  -- Enable folding of import statements
+-- vim.g.jsonnet_fold_imports = 1  -- Enable folding of import statements

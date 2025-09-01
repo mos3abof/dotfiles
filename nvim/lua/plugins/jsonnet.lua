@@ -25,6 +25,14 @@ return {
         jsonnet = { "jsonnetfmt" },
         libsonnet = { "jsonnetfmt" },   -- Also format .libsonnet files
       },
+      -- Additional pattern-based formatting for TEMPLATE files
+      format_on_save = function(bufnr)
+        local filename = vim.api.nvim_buf_get_name(bufnr)
+        if filename:match("%.jsonnet%.TEMPLATE$") or filename:match("%.libsonnet%.TEMPLATE$") then
+          return { formatters = { "jsonnetfmt" } }
+        end
+        return nil
+      end,
     },
   },
 
@@ -59,6 +67,12 @@ return {
         vim.list_extend(opts.ensure_installed, { "jsonnet" })
       end
     end,
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+      
+      -- Set up additional file associations for treesitter
+      vim.treesitter.language.register("jsonnet", { "jsonnet.TEMPLATE", "libsonnet.TEMPLATE" })
+    end,
   },
 
   -- Mason tool installer for jsonnet-language-server and jsonnet
@@ -77,7 +91,15 @@ return {
   {
     "LazyVim/LazyVim",
     opts = function()
-      -- Set up autocmds for jsonnet files
+      -- Set up file type detection for .TEMPLATE files
+      vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+        pattern = { "*.jsonnet.TEMPLATE", "*.libsonnet.TEMPLATE" },
+        callback = function()
+          vim.bo.filetype = "jsonnet"
+        end,
+      })
+
+      -- Set up autocmds for jsonnet files (including TEMPLATE files)
       vim.api.nvim_create_autocmd("FileType", {
         pattern = { "jsonnet", "libsonnet" },
         callback = function()
