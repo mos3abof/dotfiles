@@ -212,6 +212,10 @@ export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs:fg:gl"
 
 # P.S. Install difftastic and set the diff in ~/.gitconfig to external for best results
 
+
+# Set git pager to not show if lines are less than a full page.
+PAGER="${PAGER} -X -F"
+
 alias g=git
 alias ginit='git init'
 alias gp='git push'
