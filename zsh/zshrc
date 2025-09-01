@@ -162,6 +162,7 @@ alias kgpc="kubectl get pvc"
 alias kgds="kubectl get daemonsets"
 alias kgppv="kubectl get pv,pvc"
 alias kgaa="kubectl get all --all-namespaces"
+alias kgnt="kubectl get nodes -o=custom-columns=NAME:.metadata.name,TAINTS:.spec.taints"
 
 # kubectl context and namespaces commands
 alias kctx='kubectx'
@@ -209,12 +210,17 @@ export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs:fg:gl"
 # git configurations
 ####################
 
+# P.S. Install difftastic and set the diff in ~/.gitconfig to external for best results
+
 alias g=git
 alias ginit='git init'
 alias gp='git push'
 alias gpf='git push --force-with-lease'
 alias gpl='git pull'
-alias gds='git diff --staged'
+alias gdl='git -c diff.external=difft log -p --ext-diff'
+alias gds='git diff --ext-diff --staged'
+alias gdc='git show --ext-diff'
+alias gshow='git show --ext-diff'
 alias gc='git commit -v'
 alias gca='git commit --amend -v'
 alias gcm='git commit -m'
@@ -223,7 +229,6 @@ alias glg='git log --pretty=format:"%h %s" --graph'
 alias glp="git log --pretty=oneline"
 alias glf="git log --reverse --abbrev-commit --format='%Cgreen%h: %s%Creset %n%n%b' origin/master...HEAD"
 alias grb='git rebase'
-alias gshow='git show'
 alias gbranch='git branch'
 alias gstash='git stash'
 alias greset='git reset'
