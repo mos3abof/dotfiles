@@ -29,3 +29,13 @@ vim.g.jsonnet_fmt_options = "--string-style d --max-width 100 --indent 2 --sort-
 
 -- Additional jsonnet settings for better development experience
 -- vim.g.jsonnet_fold_imports = 1  -- Enable folding of import statements
+
+-- Ensure ~/.fzf/bin is prioritized in PATH for Neovim
+-- This helps fzf-lua find the correct fzf binary (0.64.0) instead of system fzf (0.20.0)
+local fzf_bin_path = vim.fn.expand("~/.fzf/bin")
+if vim.fn.isdirectory(fzf_bin_path) == 1 then
+  local current_path = vim.env.PATH or ""
+  if not current_path:match(fzf_bin_path) then
+    vim.env.PATH = fzf_bin_path .. ":" .. current_path
+  end
+end
