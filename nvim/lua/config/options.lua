@@ -39,3 +39,23 @@ if vim.fn.isdirectory(fzf_bin_path) == 1 then
     vim.env.PATH = fzf_bin_path .. ":" .. current_path
   end
 end
+
+-- Configure clipboard for remote sessions
+-- This allows copying from Neovim in remote sessions to local macOS clipboard
+if vim.env.SSH_TTY then
+  -- We're in an SSH session, use OSC 52 escape sequences
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+    },
+  }
+else
+  -- Local session, use system clipboard
+  vim.opt.clipboard = "unnamedplus"
+end
