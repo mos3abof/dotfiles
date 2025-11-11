@@ -176,7 +176,7 @@ alias glg='git log --pretty=format:"%h %s" --graph'
 alias glp="git log --pretty=oneline"
 alias glf="git log --reverse --abbrev-commit --format='%Cgreen%h: %s%Creset %n%n%b' origin/master...HEAD"
 alias grb='git rebase'
-alias gbranch='git branch'
+alias gbranch='git branch -vvv'
 alias gstash='git stash'
 alias greset='git reset'
 alias gclone='git clone'
