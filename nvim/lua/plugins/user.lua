@@ -1,19 +1,133 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- You can also add or configure plugins by creating files in this `plugins/` folder
--- PLEASE REMOVE THE EXAMPLES YOU HAVE NO INTEREST IN BEFORE ENABLING THIS FILE
--- Here are some examples:
-
+-- Custom plugins and configurations
 ---@type LazySpec
 return {
 
-  -- == Examples of Adding Plugins ==
-
-  "andweeb/presence.nvim",
+  -- Tmux navigation plugin for seamless pane movement
   {
-    "ray-x/lsp_signature.nvim",
-    event = "BufRead",
-    config = function() require("lsp_signature").setup() end,
+    "christoomey/vim-tmux-navigator",
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown", 
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+    },
+    keys = {
+      { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
+      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+    },
+  },
+
+  -- Remote clipboard support via OSC52
+  {
+    "ojroques/nvim-osc52",
+    cond = function()
+      -- Only load in remote sessions
+      return vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil or vim.env.TMUX ~= nil
+    end,
+    config = function()
+      require('osc52').setup({
+        max_length = 0,      -- Maximum length of selection (0 for no limit)
+        silent = false,      -- Disable message on successful copy
+        trim = false,        -- Trim surrounding whitespaces
+      })
+
+      -- Keymaps for manual clipboard operations if auto-copy doesn't work
+      vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, { expr = true, desc = "Copy with OSC52" })
+      vim.keymap.set('n', '<leader>cc', '<leader>c_', { remap = true, desc = "Copy line with OSC52" })
+      vim.keymap.set('v', '<leader>c', require('osc52').copy_visual, { desc = "Copy selection with OSC52" })
+      
+      -- Alternative keymaps
+      vim.keymap.set('n', '<leader>y', require('osc52').copy_operator, { expr = true, desc = "Yank with OSC52" })
+      vim.keymap.set('n', '<leader>yy', '<leader>y_', { remap = true, desc = "Yank line with OSC52" })
+      vim.keymap.set('v', '<leader>y', require('osc52').copy_visual, { desc = "Yank selection with OSC52" })
+    end,
+  },
+
+  -- Jsonnet configuration to prevent quote changes on save
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = function(_, opts)
+      -- Ensure formatters table exists
+      opts.formatters = opts.formatters or {}
+      opts.formatters_by_ft = opts.formatters_by_ft or {}
+      
+      -- Configure jsonnetfmt but don't use it automatically
+      opts.formatters.jsonnetfmt = {
+        args = {
+          "--string-style", "d",        -- Use double quotes for strings
+          "--max-blank-lines", "2",     -- Maximum 2 blank lines
+          "--indent", "2",              -- 2-space indentation
+          "--max-width", "100",         -- 100 character line limit
+          "--sort-imports",             -- Sort import statements
+          "--comment-style", "//",      -- Use // for comments
+          "-"                           -- Read from stdin
+        },
+      }
+      
+      -- Explicitly disable formatters for jsonnet files
+      opts.formatters_by_ft.jsonnet = {}
+      opts.formatters_by_ft.libsonnet = {}
+      
+      -- Override format_on_save to explicitly disable jsonnet formatting
+      local original_format_on_save = opts.format_on_save
+      opts.format_on_save = function(bufnr)
+        local filetype = vim.bo[bufnr].filetype
+        
+        -- Explicitly disable formatting for jsonnet files
+        if filetype == "jsonnet" or filetype == "libsonnet" then
+          return false
+        end
+        
+        -- Call original format_on_save function if it exists
+        if type(original_format_on_save) == "function" then
+          return original_format_on_save(bufnr)
+        elseif original_format_on_save then
+          return original_format_on_save
+        end
+        
+        return nil
+      end
+      
+      return opts
+    end,
+  },
+
+  -- Configure LSP for jsonnet
+  {
+    "neovim/nvim-lspconfig",
+    optional = true,
+    opts = {
+      servers = {
+        jsonnet_ls = {
+          settings = {
+            formatting = {
+              StringStyle = "double",        -- Use double quotes
+              IndentArrayInObject = false,   -- Follow jsonnet fmt defaults
+              UseImplicitPlus = true,        -- Allow object composition patterns
+              PadArrays = false,             -- No padding in arrays
+              PadObjects = true,             -- Pad objects for readability
+            },
+            ext_vars = {},                   -- Don't use ExtVars
+            max_trace = 20,                  -- Reasonable trace depth
+          },
+        },
+      },
+    },
+  },
+
+  -- Ensure jsonnet treesitter parser is installed
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      if type(opts.ensure_installed) == "table" then
+        vim.list_extend(opts.ensure_installed, { "jsonnet" })
+      end
+    end,
   },
 
   -- == Examples of Overriding Plugins ==

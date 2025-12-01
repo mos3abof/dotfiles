@@ -23,5 +23,6 @@ return {
   { import = "astrocommunity.pack.toml" },
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.pack.terraform" },
+  { import = "astrocommunity.recipes.ai" },
   -- import/override with your plugins folder
 }
