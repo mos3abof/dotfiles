@@ -186,6 +186,7 @@ alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
 eval "$(scmpuff init -s)"
 eval "$(zoxide init zsh)"
 alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
+alias gitstartover="git reset --hard HEAD && git clean -fdx"
 
 # Disable creation of __pycache__ folder
 export PYTHONDONTWRITEBYTECODE=1

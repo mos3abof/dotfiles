@@ -36,10 +36,10 @@ return {
       },
     },
     filetypes = {
-      yaml = false,
-      markdown = false,
+      yaml = true,        -- Enable for YAML (useful for configs, CI/CD files)
+      markdown = true,    -- Enable for Markdown (useful for documentation)
       help = false,
-      gitcommit = false,
+      gitcommit = true,   -- Enable for git commits (often amusing suggestions)
       gitrebase = false,
       hgcommit = false,
       svn = false,

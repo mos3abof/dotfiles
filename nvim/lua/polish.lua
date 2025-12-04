@@ -97,3 +97,18 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.spelllang = "en_us"
   end,
 })
+
+-- GitHub Copilot performance optimization for large files
+-- Disable Copilot for files larger than 100KB to improve performance
+vim.api.nvim_create_autocmd("BufReadPre", {
+  pattern = "*",
+  callback = function()
+    local file = vim.fn.expand("<afile>")
+    local size = vim.fn.getfsize(file)
+    
+    -- Disable Copilot for files larger than 100KB or if size cannot be determined
+    if size > 100000 or size == -2 then
+      vim.b.copilot_enabled = false
+    end
+  end,
+})

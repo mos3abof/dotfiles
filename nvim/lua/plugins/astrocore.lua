@@ -81,6 +81,39 @@ return {
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
       },
+      -- Insert mode mappings for completion
+      i = {
+        -- Tab key for accepting completions (including Copilot)
+        ["<Tab>"] = {
+          function()
+            -- First try to accept Copilot suggestion
+            if vim.g.ai_accept and vim.g.ai_accept() then
+              return
+            end
+            -- If no Copilot suggestion, try blink.cmp
+            if require("blink.cmp").is_visible() then
+              require("blink.cmp").accept()
+            else
+              -- Fallback to regular tab
+              return "<Tab>"
+            end
+          end,
+          expr = true,
+          desc = "Accept completion or Copilot suggestion",
+        },
+        -- Shift-Tab for previous completion
+        ["<S-Tab>"] = {
+          function()
+            if require("blink.cmp").is_visible() then
+              require("blink.cmp").select_prev()
+            else
+              return "<S-Tab>"
+            end
+          end,
+          expr = true,
+          desc = "Previous completion",
+        },
+      },
     },
   },
 }
