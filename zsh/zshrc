@@ -103,10 +103,13 @@ alias kgd="kubectl get deployments"
 alias kgs="kubectl get services"
 alias kgpv="kubectl get pv"
 alias kgpc="kubectl get pvc"
+alias kgss="kubectl get statefulsets"
 alias kgds="kubectl get daemonsets"
 alias kgppv="kubectl get pv,pvc"
-alias kgaa="kubectl get all --all-namespaces"
 alias kgnt="kubectl get nodes -o=custom-columns=NAME:.metadata.name,TAINTS:.spec.taints"
+alias kgnp="kubectl get networkpolicies"
+alias kgcm="kubectl get configmaps"
+alias kgaa="kubectl get all --all-namespaces"
 
 # kubectl context and namespaces commands
 alias kctx='kubectx'
@@ -116,12 +119,20 @@ alias kns="kubens"
 alias kaf="kubectl apply -f"
 alias kcf="kubectl create -f"
 alias kdf="kubectl delete -f"
-alias keti="kubectl exec -ti"
 
-# kubectl resource commands
+# kubectl describe commands
 alias kd="kubectl describe"
 alias kdp="kubectl describe pods"
+alias kdd="kubectl describe deployments"
+alias kds="kubectl describe services"
+alias kdn="kubectl describe nodes"
+alias kgss="kubectl describe statefulsets"
+alias kgds="kubectl describe daemonsets"
+alias kdnp="kubectl describe networkpolicies"
+
+# Interacting with pods
 alias ke="kubectl edit"
+alias keti="kubectl exec -ti"
 alias kdel="kubectl delete"
 
 # dashbaord
@@ -187,6 +198,9 @@ eval "$(scmpuff init -s)"
 eval "$(zoxide init zsh)"
 alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
 alias gitstartover="git reset --hard HEAD && git clean -fdx"
+
+# bat aliases
+alias baml='bat --language=yaml'
 
 # Disable creation of __pycache__ folder
 export PYTHONDONTWRITEBYTECODE=1
