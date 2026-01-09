@@ -202,6 +202,87 @@ alias gitstartover="git reset --hard HEAD && git clean -fdx"
 # bat aliases
 alias baml='bat --language=yaml'
 
+# If sapling is installed, add some aliases and configureations.
+if command -v sl >/dev/null 2>&1
+then;
+  # Get or create a bookmark for the current commit and return the branch name.
+  # If a bookmark exists, use it. Otherwise, create one in the format:
+  # origin/mosab/{rev}-{commit-message-title}
+  sapling_branch() {
+    # Check if there's an existing bookmark for this commit
+    local existing_bookmark
+    existing_bookmark=$(sl log -r . --template '{bookmarks}' | tr -d ' ')
+    
+    if [[ -n "$existing_bookmark" ]]; then
+      # Bookmark exists, use it
+      echo "$existing_bookmark"
+    else
+      # Check if this commit is on master/main - don't create bookmarks for these
+      local remotenames
+      remotenames=$(sl log -r . --template '{remotenames}' | tr -d ' ')
+      
+      if [[ "$existing_bookmark" =~ ^(master|main)$ ]] || \
+         [[ "$remotenames" =~ (^|[[:space:]])(remote/master|remote/main|origin/master|origin/main)([[:space:]]|$) ]]; then
+        echo "Error: Cannot create bookmark for master/main branch" >&2
+        return 1
+      fi
+      
+      # No bookmark, create one
+      local rev
+      local title
+      local branch_name
+      
+      # Get revision number and commit message title
+      rev=$(sl log -r . --template '{rev}')
+      title=$(sl log -r . --template '{desc|firstline}')
+      
+      # Sanitize title: convert to lowercase, replace spaces with hyphens,
+      # remove special characters, collapse multiple hyphens
+      title=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-z0-9-]/-/g' -e 's/-\+/-/g' -e 's/^-//' -e 's/-$//')
+      
+      # Construct branch name
+      branch_name="origin/mosab/${rev}-${title}"
+      
+      # Create the bookmark
+      sl bookmark "$branch_name" -r .
+      
+      echo "$branch_name"
+    fi
+  }
+
+  # Push current commit to GitHub.
+  # Accepts optional -f or --force flag to force push.
+  slp() {
+    local force_flag=""
+    
+    # Parse arguments for force flag
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        -f|--force)
+          force_flag="--force"
+          shift
+          ;;
+        *)
+          echo "Unknown option: $1"
+          echo "Usage: slp [-f|--force]"
+          return 1
+          ;;
+      esac
+    done
+    
+    local branch
+    branch=$(sapling_branch)
+    
+    if [[ -n "$force_flag" ]]; then
+      echo "Force pushing to $branch..."
+      sl push --to "$branch" --force
+    else
+      echo "Pushing to $branch..."
+      sl push --to "$branch"
+    fi
+  }
+fi
+
 # Disable creation of __pycache__ folder
 export PYTHONDONTWRITEBYTECODE=1
 
