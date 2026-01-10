@@ -202,6 +202,7 @@ alias gitstartover="git reset --hard HEAD && git clean -fdx"
 # bat aliases
 alias baml='bat --language=yaml'
 
+
 # If sapling is installed, add some aliases and configureations.
 if command -v sl >/dev/null 2>&1
 then;
@@ -241,7 +242,7 @@ then;
       title=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-z0-9-]/-/g' -e 's/-\+/-/g' -e 's/^-//' -e 's/-$//')
       
       # Construct branch name
-      branch_name="origin/mosab/${rev}-${title}"
+      branch_name="origin/mosab/${title}"
       
       # Create the bookmark
       sl bookmark "$branch_name" -r .
@@ -309,12 +310,14 @@ fi
 ###############################
 # autocompletion configurations
 ###############################
-
 autoload -Uz compinit
 compinit
 
-# autoload -U +X bashcompinit && bashcompinit
-# complete -o nospace -C /usr/bin/terraform terraform
+# jj autocompletion
+if command -v jj >/dev/null 2>&1
+then;
+  source <(jj util completion zsh)
+fi
 
 # kubernetes autocompletion
 source <(kubectl completion zsh)  # set up autocomplete in zsh into the current shell
@@ -336,3 +339,10 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
 eval "$(atuin init zsh)"
+
+# bun completions
+[ -s "/home/mosab.ibrahim/.bun/_bun" ] && source "/home/mosab.ibrahim/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
