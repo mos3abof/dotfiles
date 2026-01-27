@@ -111,6 +111,9 @@ alias kgnp="kubectl get networkpolicies"
 alias kgcm="kubectl get configmaps"
 alias kgaa="kubectl get all --all-namespaces"
 
+# node health status
+alias kgnh="kubectl get nodes -o 'custom-columns=NAME:.metadata.name,CONDITIONS:.status.conditions[*].type,STATUS:.status.conditions[*].status'"
+
 # kubectl context and namespaces commands
 alias kctx='kubectx'
 alias kns="kubens"
