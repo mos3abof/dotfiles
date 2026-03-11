@@ -322,6 +322,12 @@ then;
   source <(jj util completion zsh)
 fi
 
+# jc autocompletion
+if command -v jc >/dev/null 2>&1
+then;
+  source <(jc completions zsh)
+fi
+
 # kubernetes autocompletion
 source <(kubectl completion zsh)  # set up autocomplete in zsh into the current shell
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
@@ -349,3 +355,6 @@ eval "$(atuin init zsh)"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by arca-companion: ensure ~/.local/bin is in PATH
+export PATH="$HOME/.local/bin:$PATH"

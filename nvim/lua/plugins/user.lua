@@ -130,6 +130,22 @@ return {
     end,
   },
 
+  -- Show hidden/dotfiles in neo-tree file explorer
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = {
+      filesystem = {
+        filtered_items = {
+          visible = true,
+          show_hidden_count = true,
+          hide_dotfiles = false,
+          hide_gitignored = false,
+          never_show = {},
+        },
+      },
+    },
+  },
+
   -- == Examples of Overriding Plugins ==
 
   -- customize dashboard options
