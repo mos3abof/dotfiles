@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "Bash(python3:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Read(//Users/mosab/.config/jj/**)",
+      "Read(//Users/mosab/**)",
+      "Bash(jj nt *)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(brew info *)",
+      "Bash(brew upgrade *)",
+      "Bash(arch -arm64 brew upgrade gh)",
+      "Bash(jc submit *)"
     ]
   }
 }
