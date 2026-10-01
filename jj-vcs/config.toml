@@ -1,0 +1,176 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[user]
+name = "Mosab Ibrahim"
+email = "mosab.a.ibrahim@gmail.com"
+
+[ui]
+default-command = ["log"]
+
+editor = "nvim"
+diff-formatter = ["difft", "--color=always", "$left", "$right"]
+
+pager = ":builtin"
+graph.style = "square"
+
+[colors]
+"commit_id prefix" = { bold = true }
+
+[aliases]
+d = ["diff", "--ignore-working-copy"]
+s = ["status"]
+l = ["log", "--ignore-working-copy"]
+
+# gp = ['git', 'push', '-c', '@-']
+gp = ['git', 'push', '-b', 'glob:mosab/push-*']
+sync = ['git', 'fetch', '--all-remotes']
+fsl = [
+  "log",
+  "-r",
+  "fork_point(::@ ~ ::trunk())- | fork_point(::@ ~ ::trunk()):: | trunk() | ancestors(::@ ~ ::trunk(), 2)",
+]
+
+# Create stacked diffs with these aliases, they open the current and previous
+# (remote) bookmarks gh pr create --fill --head $(jj cb) --base $(jj pb)
+# --reviewer USERNAME
+cb = [
+  "log",
+  "-r",
+  "@",
+  "--no-pager",
+  "--no-graph",
+  "-T",
+  "local_bookmarks.map(|x| x.name())",
+]
+pb = [
+  "log",
+  "-r",
+  "@-",
+  "--no-pager",
+  "--no-graph",
+  "-T",
+  "local_bookmarks.map(|x| x.name())",
+]
+title = [
+  "log",
+  "--no-pager",
+  "--no-graph",
+  "-r",
+  "@",
+  "-T",
+  "description.first_line()",
+]
+description = [
+  "log",
+  "--no-pager",
+  "--no-graph",
+  "-r",
+  "@",
+  "-T",
+  "description.remove_prefix(description.first_line()).remove_prefix(\"\n\n\")",
+]
+# desc-title = "log -r @ -T description.first_line()"
+
+# "New Trunk"
+nt = ["new", "trunk()"]
+
+credit = ["file", "annotate"]
+cat = ["file", "show"]
+
+# Find the closest ancestor with a bookmark pointing at it, and move it to the
+# parent of the working copy.
+tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+
+# Get all open stacks of work
+open = ["log", "-r", "open()"]
+
+# Retrunk revisions. Typically as `jj retrunk -s ...` -- notably can be used
+# with open:
+# - jj retrunk -s 'all:roots(open())'
+retrunk = ["rebase", "-d", "trunk()"]
+
+# Retrunk the current stack of work.
+reheat = ["rebase", "-d", "trunk()", "-s", "all:roots(trunk()..stack(@))"]
+
+# 'jj sandwich xyz' to move xyz into the megamerge in parallel to everything
+# else. See notes on 'megamerge()' above for how it's resolved.
+sandwich = ["rebase", "-B", "megamerge()", "-A", "trunk()", "-r"]
+
+# Take content from any change, and move it into @. The inverse of 'eject'
+# - jj consume xyz path/to/file`
+consume = ["squash", "--into", "@", "--from"]
+
+# Eject content from @ into any other change. The inverse of 'consume'
+# - jj eject xyz --interactive
+eject = ["squash", "--from", "@", "--into"]
+
+# EXPERIMENTAL: ultra-generalized command that subsumes both 'diff' and 'show'
+examine = ["log", "-T", "builtin_log_detailed", "-p", "-r"]
+
+track-github-PR = [
+  "util",
+  "exec",
+  "--",
+  'sh',
+  '-euxc',
+  '''
+  PR=$1
+  gh pr view --json headRepository,headRefName,headRepositoryOwner $PR --jq '"
+    jj 2>/dev/null git remote add \(.headRepositoryOwner.login) git@github.com:\(.headRepositoryOwner.login)/\(.headRepository.name) ||
+    jj git remote set-url \(.headRepositoryOwner.login) git@github.com:\(.headRepositoryOwner.login)/\(.headRepository.name)
+    jj git fetch --remote \(.headRepositoryOwner.login) --branch \(.headRefName)
+    jj bookmark track \(.headRefName)@\(.headRepositoryOwner.login)
+  "' |
+  sh -euxs
+''',
+  "jj-track-github-PR",
+]
+
+untrack-github-PR = [
+  "util",
+  "exec",
+  "--",
+  'sh',
+  '-euxc',
+  '''
+  PR=$1
+  gh pr view --json headRepository,headRefName,headRepositoryOwner $PR --jq '"
+    jj bookmark forget \(.headRefName) || true
+    git branch --remotes --delete --force \(.headRepositoryOwner.login)/\(.headRefName) || true
+  "' |
+  sh -euxs
+''',
+  "jj-untrack-github-PR",
+]
+spr = ["util", "exec", "--", "jj-spr"]
+
+[templates]
+git_push_bookmark = '"mos3abof/" ++ change_id.short()'
+
+# list github PRs with their jj change ids
+# log = 'builtin_log_comfortable'
+# log = '''
+# concat(
+#   separate(" ",
+#     format_short_change_id_with_hidden_and_divergent_info(self),
+#     format_short_commit_id(commit_id),
+#     bookmarks,
+#     if(remote_bookmarks, " " ++ remote_bookmarks),
+#     description.first_line(),
+#   ) ++ "\n"
+# )
+# '''
+
+[template-aliases]
+default_commit_description = '''
+"<title>
+
+## Summary
+
+## Test Plan
+
+"
+'''
+
+[snapshot]
+max-new-file-size = "50MiB"
