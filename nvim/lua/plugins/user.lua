@@ -148,6 +148,20 @@ return {
     },
   },
 
+  -- Transparent background, so the terminal's opacity shows through nvim.
+  -- The 80% itself is Ghostty's `background-opacity = 0.8` on the Mac, which
+  -- also covers nvim on the devserver (it renders in that same Ghostty window).
+  {
+    "AstroNvim/astrotheme",
+    opts = {
+      style = {
+        transparent = true,
+        inactive = false, -- otherwise unfocused splits keep an opaque dimmed bg
+        neotree = false, -- let the file explorer show through too
+      },
+    },
+  },
+
   -- == Examples of Overriding Plugins ==
 
   -- customize dashboard options
