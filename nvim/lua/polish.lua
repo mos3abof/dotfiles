@@ -3,8 +3,11 @@
 -- fit in the normal config locations above can go here
 
 -- Remote clipboard configuration using OSC52
+-- tmux on the Mac is local: the native pbcopy/pbpaste provider works there and,
+-- unlike OSC 52, can also paste from the system clipboard.
 local function is_remote_session()
-  return vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil or vim.env.TMUX ~= nil
+  local local_mac_tmux = vim.env.TMUX ~= nil and vim.fn.has "mac" == 1
+  return vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil or (vim.env.TMUX ~= nil and not local_mac_tmux)
 end
 
 if is_remote_session() then

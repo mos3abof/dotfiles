@@ -1,59 +1,48 @@
 #!/usr/bin/env bash
+# Symlinks the configs listed in install.mapping into $HOME. Works on macOS and
+# Linux, from wherever the repo is cloned, and is safe to re-run: links that
+# already point at the repo are left alone, and anything else in the way is
+# moved to ~/.dotfiles-bak-<timestamp>/ first.
+#
+# Packages are not installed here (see brew/ and dnf/).
 
-set -x
-set -o nounset
-set -o errexit
+set -o nounset -o errexit -o pipefail
 
-if [[ "$(uname)" == "Darwin" ]]; then
-  READLINK=greadlink
-  LN=gln
-else
-  READLINK=readlink
-  LN=ln
-fi
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKUP_DIR="$HOME/.dotfiles-bak-$(date +%Y%m%d-%H%M%S)"
 
-# Assumptions are made that the dotfiles directory is residing under $HOME, in order to provide
-# relative symlinks
-#if [[ -z "$($READLINK -f $0 | grep $HOME)" ]]; then
-#  echo "$($READLINK -f $0) must reside under $HOME"
-#  exit 1
-#fi
+link() {
+  local src="$DOTFILES/$1" dest="$HOME/$2"
 
-command_exists () {
-  type "$1" &> /dev/null ;
+  if [[ ! -e "$src" ]]; then
+    echo "skip    ~/$2 ($1 not in repo)"
+    return
+  fi
+  if [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]]; then
+    echo "ok      ~/$2"
+    return
+  fi
+
+  if [[ -e "$dest" || -L "$dest" ]]; then
+    mkdir -p "$(dirname "$BACKUP_DIR/$2")"
+    mv "$dest" "$BACKUP_DIR/$2"
+    echo "backup  ~/$2 -> $BACKUP_DIR/$2"
+  fi
+  mkdir -p "$(dirname "$dest")"
+  ln -s "$src" "$dest"
+  echo "link    ~/$2 -> $1"
 }
 
-# Check for binaries on PATH that are required for installation of plugins
-if ! command_exists git || ! command_exists vim || ! command_exists test
-then
-  echo "Install git, vim and test, then re-execute this script"
-  exit 1
+while IFS=: read -r src dest; do
+  [[ -z "$src" || "$src" == \#* ]] && continue
+  link "$src" "$dest"
+done < "$DOTFILES/install.mapping"
+
+# tmux plugin manager; press `prefix + I` inside tmux to install the plugins.
+if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+  git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 fi
 
-CURRENT_DIRECTORY=$(pwd)
-
-
-# Confiture bash
-#$CURRENT_DIRECTORY/bash/install.sh
-
-# Configure vim
-#IM_SCRIPT_EXISTS=$(test -f "$HOME/dotfiles/vim/install.sh")
-#if [ $VIM_SCRIPT_EXITST  ]; then
-  $CURRENT_DIRECTORY/vim/install.sh
-#else
-#  echo "Skipping vim installation. Didn'Vt find file"
-#fi
-
-# Configure tmux
-#IM_SCRIPT_EXISTS=$(test -f "$HOME/dotfiles/vim/install.sh")
-#if [ $VIM_SCRIPT_EXITST  ]; then
-  $CURRENT_DIRECTORY/tmux/install.sh
-#else
-#  echo "Skipping vim installation. Didn'Vt find file"
-#fi
-
-
-# Congigure brew if Mac
-
-
-# Install packages if Debian based
+if [[ ! -e "$HOME/.gitconfig.local" ]]; then
+  echo "note    no ~/.gitconfig.local; put machine-specific git settings (credential helpers) there"
+fi

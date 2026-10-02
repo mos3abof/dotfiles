@@ -1,10 +1,12 @@
-bash_profile:.bash_profile
-bashrc:.bashrc
-bashrc.functions:.bashrc.functions
-inputrc:.inputrc
-tmux:.tmux
+# <path in this repo>:<path under $HOME>
+# Read by install.sh, which symlinks each entry. Lines starting with # are skipped.
+zsh/zshrc:.zshrc
+zsh/.zshenv:.zshenv
+zsh/p10k.zsh:.p10k.zsh
 tmux/tmux.conf:.tmux.conf
-vim:.vim
-vim/vimrc:.vimrc
-gitconfig:.gitconfig
-gitignore.global:.gitignore.global
+tmux/scripts:.tmux/scripts
+nvim:.config/nvim
+jj-vcs/config.toml:.config/jj/config.toml
+git/gitconfig:.gitconfig
+git/gitignore_global:.gitignore
+atuin/config.toml:.config/atuin/config.toml

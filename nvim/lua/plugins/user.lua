@@ -25,8 +25,10 @@ return {
   {
     "ojroques/nvim-osc52",
     cond = function()
-      -- Only load in remote sessions
-      return vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil or vim.env.TMUX ~= nil
+      -- Only load in remote sessions (local tmux on the Mac uses pbcopy instead;
+      -- keep in sync with is_remote_session() in polish.lua)
+      local local_mac_tmux = vim.env.TMUX ~= nil and vim.fn.has "mac" == 1
+      return vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil or (vim.env.TMUX ~= nil and not local_mac_tmux)
     end,
     config = function()
       require('osc52').setup({

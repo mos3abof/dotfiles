@@ -1,0 +1,24 @@
+[user]
+	name = Mosab Ibrahim
+	email = mosab.a.ibrahim@gmail.com
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[alias]
+	next = stack next
+	prev = stack previous
+	reword = stack reword
+	amend = stack amend
+	sync = stack sync
+	run = stack run
+[diff]
+	external = difft
+[core]
+	; global .gitignore file
+	excludesFile = ~/.gitignore
+
+; Machine-specific settings (e.g. credential helpers, whose gh path differs
+; between macOS and Linux). Not tracked; missing file is fine.
+[include]
+	path = ~/.gitconfig.local

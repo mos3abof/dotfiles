@@ -27,6 +27,17 @@ ENABLE_CORRECTION="false"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git fzf brew docker docker-compose httpie jira kubectl python rust sublime virtualenv kubectl kube-ps1 gh gitignore golang helm postgres sudo tmux databricks)
 
+# Other bin paths. Set before oh-my-zsh so plugins (fzf, tmux, ...) can find
+# Homebrew-installed tools on the Mac.
+export LOCAL_BIN="${HOME}/.local/bin"
+if [[ -d "${LOCAL_BIN}" && ! -L "${LOCAL_BIN}" ]] ; then
+  export PATH="$PATH:$LOCAL_BIN"
+fi
+export BREW_BIN="/opt/homebrew/bin"
+if [[ -d "${BREW_BIN}" && ! -L "${BREW_BIN}" ]] ; then
+  export PATH=$BREW_BIN:$PATH
+fi
+
 # Load the oh-my-zsh configs
 source $ZSH/oh-my-zsh.sh
 
@@ -68,17 +79,6 @@ export VISUAL="$EDITOR"
 alias vim="nvim"
 alias vi="nvim"
 alias oldvim="vim"
-
-# Other bin paths
-export LOCAL_BIN="${HOME}/.local/bin"
-if [[ -d "${LOCAL_BIN}" && ! -L "${LOCAL_BIN}" ]] ; then
-  export PATH="$PATH:$LOCAL_BIN"
-fi
-export BREW_BIN="/opt/homebrew/bin"
-if [[ -d "${BREW_BIN}" && ! -L "${BREW_BIN}" ]] ; then
-  export PATH=$PATH:$BREW_BIN
-  export PATH=$BREW_BIN:$PATH
-fi
 
 # General aliases
 alias ls="ls -a --color=auto"
@@ -196,7 +196,13 @@ alias greset='git reset'
 alias gclone='git clone'
 alias gfetch='git fetch'
 alias gprune="git branch -r | awk '{print \$1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print \$1}' | xargs git branch -d "
-alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
+if [[ $OSTYPE == darwin* ]]; then
+  alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
+else
+  # No pbcopy on a headless box: send the SHA to the local terminal's
+  # clipboard via OSC 52 (tmux forwards it with `set-clipboard on`).
+  shac() { printf '\e]52;c;%s\a' "$(git rev-parse HEAD | tr -d '\n' | base64 | tr -d '\n')" }
+fi
 eval "$(scmpuff init -s)"
 eval "$(zoxide init zsh)"
 alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
@@ -290,11 +296,6 @@ fi
 # Disable creation of __pycache__ folder
 export PYTHONDONTWRITEBYTECODE=1
 
-# aranist (`arc` command)
-if [[ -f /var/www/phorge.mosab.me/arcanist/bin/arc ]] then;
-  export PATH="$PATH:/var/www/phorge.mosab.me/arcanist/bin/"
-fi
-
 ########################
 # shell ux configuration
 ########################
@@ -329,7 +330,6 @@ then;
 fi
 
 # kubernetes autocompletion
-source <(kubectl completion zsh)  # set up autocomplete in zsh into the current shell
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 export KUBECONFIG=~/.kube/config
 
@@ -341,16 +341,16 @@ export NVM_DIR="$HOME/.nvm"
 # Mise
 eval "$(${HOME}/.local/bin/mise activate zsh)"
 
-# If you need to have libpq first in your PATH, run:
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
-# For compilers to find libpq you may need to set:
-export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
+# Homebrew's keg-only libpq (psql and friends, plus headers for compilers)
+if [[ $OSTYPE == darwin* && -d /opt/homebrew/opt/libpq ]]; then
+  export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+  export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
+  export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
+fi
 eval "$(atuin init zsh)"
 
 # bun completions
-[ -s "/home/mosab.ibrahim/.bun/_bun" ] && source "/home/mosab.ibrahim/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"

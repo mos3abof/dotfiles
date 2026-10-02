@@ -1,55 +1,50 @@
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
+# Claude Code directories
+.claude/
+.claude/settings.json
+.claude/settings.local.json
 
-### Tags ###
-# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
-TAGS
-.TAGS
-!TAGS/
-tags
-.tags
-!tags/
-gtags.files
-GTAGS
-GRTAGS
-GPATH
-GSYMS
-cscope.files
-cscope.out
-cscope.in.out
-cscope.po.out
+# Claude Code skills cache and logs
+.claude/skills/.cache/
+.claude/skills/*.log
+.claude/skills/state/
+.claude/skills/tmp/
 
-# Packages #
-############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
+# Claude Code conversation and session data
+.claude/conversations/
+.claude/sessions/
+.claude/checkpoints/
 
-# Logs and databases #
-######################
-*.log
-*.sql
-*.sqlite
+# Skill-specific exclusions
+*.skill-backup
+skill-state.json
+conversation-history/
+.claude-history
 
-# OS generated files #
-######################
+# Generated artifacts
+dist/
+build/
+*.generated.*
+*.tmp
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node and Python dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db

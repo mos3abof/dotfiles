@@ -21,8 +21,6 @@ d = ["diff", "--ignore-working-copy"]
 s = ["status"]
 l = ["log", "--ignore-working-copy"]
 
-# gp = ['git', 'push', '-c', '@-']
-gp = ['git', 'push', '-b', 'glob:mosab/push-*']
 sync = ['git', 'fetch', '--all-remotes']
 fsl = [
   "log",
