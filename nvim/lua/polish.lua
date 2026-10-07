@@ -115,3 +115,7 @@ vim.api.nvim_create_autocmd("BufReadPre", {
     end
   end,
 })
+
+-- Neovim 0.12+ keeps code lenses refreshed itself; astrolsp's refresh-based
+-- codelens feature is turned off there (see plugins/astrolsp.lua).
+if vim.fn.has "nvim-0.12" == 1 then vim.lsp.codelens.enable(true) end

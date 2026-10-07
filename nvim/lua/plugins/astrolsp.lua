@@ -12,7 +12,10 @@ return {
   opts = {
     -- Configuration table of features provided by AstroLSP
     features = {
-      codelens = true, -- enable/disable codelens refresh on start
+      -- enable/disable codelens refresh on start. Neovim 0.12+ refreshes code
+      -- lenses natively (enabled in polish.lua); astrolsp v3 would call the
+      -- deprecated vim.lsp.codelens.refresh() there.
+      codelens = vim.fn.has "nvim-0.12" == 0,
       inlay_hints = false, -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
     },
@@ -99,7 +102,7 @@ return {
           function() require("astrolsp.toggles").buffer_semantic_tokens() end,
           desc = "Toggle LSP semantic highlight (buffer)",
           cond = function(client)
-            return client.supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
+            return client:supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
           end,
         },
       },
