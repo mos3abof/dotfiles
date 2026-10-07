@@ -347,6 +347,23 @@ if [[ $OSTYPE == darwin* && -d /opt/homebrew/opt/libpq ]]; then
   export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
   export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
 fi
+
+# Devserver only: restate's .cargo/config.toml pins -Ctarget-cpu=broadwell, so its
+# build scripts crash with SIGILL on this CPU (no AVX2). An env RUSTFLAGS overrides
+# that config, so set it (minus target-cpu) while inside the repo.
+if [[ $OSTYPE == linux* ]] && ! grep -qw avx2 /proc/cpuinfo; then
+  _restate_rustflags() {
+    if [[ $PWD == $HOME/workspace/restate(|/*) ]]; then
+      export RUSTFLAGS="-C force-unwind-tables --cfg uuid_unstable --cfg tokio_unstable --cfg zerocopy_inline_always"
+      _RESTATE_RUSTFLAGS_SET=1
+    elif [[ -n $_RESTATE_RUSTFLAGS_SET ]]; then
+      unset RUSTFLAGS _RESTATE_RUSTFLAGS_SET
+    fi
+  }
+  autoload -Uz add-zsh-hook
+  add-zsh-hook chpwd _restate_rustflags
+  _restate_rustflags
+fi
 eval "$(atuin init zsh)"
 
 # bun completions
