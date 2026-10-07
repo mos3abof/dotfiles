@@ -2,6 +2,11 @@
 ---@type LazySpec
 return {
 
+  -- AstroNvim v5 pins aerial to ^2.2, and :Lazy update then resolves to v2.7.0,
+  -- whose treesitter backend crashes on Neovim 0.12 ("attempt to call method
+  -- 'start'"). v4 has the fix (and requires Neovim 0.12+).
+  { "stevearc/aerial.nvim", version = "^4" },
+
   -- Tmux navigation plugin for seamless pane movement
   {
     "christoomey/vim-tmux-navigator",
