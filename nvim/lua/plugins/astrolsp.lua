@@ -44,6 +44,7 @@ return {
     -- enable servers that you already have installed without mason
     servers = {
       -- "pyright"
+      "rust_analyzer", -- from rustup (`rustup component add rust-analyzer`), so it matches the pinned toolchain
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
