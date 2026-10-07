@@ -142,6 +142,33 @@ untrack-github-PR = [
 ]
 spr = ["util", "exec", "--", "jj-spr"]
 
+# Push a revision to main on the remote, like `git push origin <rev>:main`.
+# See https://github.com/jj-vcs/jj/discussions/3135
+# - jj push-main          push @- to main, fast-forward only
+# - jj push-main xyz      push xyz instead of @-
+# - jj push-main -f [xyz] force push: also allow moving main backwards or sideways
+# The push itself is always lease-protected, like --force-with-lease: it is
+# refused if main on the remote moved since the last fetch, even with -f.
+push-main = [
+  "util",
+  "exec",
+  "--",
+  'sh',
+  '-euc',
+  '''
+  usage="usage: jj push-main [-f|--force] [REV]  (REV defaults to @-)"
+  allow=
+  case "${1:-}" in -f|--force) allow=--allow-backwards; shift ;; esac
+  case "${1:-}" in
+    -h|--help) echo "$usage"; exit 0 ;;
+    -*) echo "$usage" >&2; exit 2 ;;
+  esac
+  jj bookmark move main --to "${1:-@-}" $allow
+  jj git push --bookmark main
+''',
+  "jj-push-main",
+]
+
 [templates]
 git_push_bookmark = '"mos3abof/" ++ change_id.short()'
 
