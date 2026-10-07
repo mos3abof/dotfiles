@@ -361,6 +361,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export GPG_TTY=$(tty)
 
 # Dotsecevn managed secrets
-dotsecenv login > /dev/null
-export HUNT_ACCESS_CLIENT_ID=$(dotsecenv secret get HUNT_ACCESS_CLIENT_ID)
-export HUNT_ACCESS_CLIENT_SECRET=$(dotsecenv secret get HUNT_ACCESS_CLIENT_SECRET)
+dotsecenv login > /dev/null 2>&1
+export HUNT_ACCESS_CLIENT_ID=$(dotsecenv secret get HUNT_ACCESS_CLIENT_ID 2>/dev/null)
+export HUNT_ACCESS_CLIENT_SECRET=$(dotsecenv secret get HUNT_ACCESS_CLIENT_SECRET 2>/dev/null)
+
