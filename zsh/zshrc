@@ -382,3 +382,5 @@ dotsecenv login > /dev/null 2>&1
 export HUNT_ACCESS_CLIENT_ID=$(dotsecenv secret get HUNT_ACCESS_CLIENT_ID 2>/dev/null)
 export HUNT_ACCESS_CLIENT_SECRET=$(dotsecenv secret get HUNT_ACCESS_CLIENT_SECRET 2>/dev/null)
 
+# Add to ~/.bashrc or ~/.zshrc
+alias b="bunnylol"
