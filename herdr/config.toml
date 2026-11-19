@@ -1,0 +1,60 @@
+# herdr config ported from ~/workspace/dotfiles/tmux/tmux.conf
+onboarding = false
+
+[theme]
+# tokyo-night-tmux (storm, transparent)
+name = "tokyo-night"
+
+[theme.custom]
+panel_bg = "reset"          # @tokyo-night-tmux_transparent 1
+
+[terminal]
+new_cwd = "follow"          # new-window / split-window -c "#{pane_current_path}"
+
+[keys]
+prefix = "ctrl+a"                                   # set -g prefix C-a
+
+detach          = ["prefix+q", "prefix+ctrl+d"]     # bind ^D detach-client
+reload_config   = "prefix+shift+r"                  # bind R source-file
+
+new_tab         = "prefix+c"                        # bind c new-window
+previous_tab    = ["prefix+p", "prefix+ctrl+p"]     # bind C-p previous-window
+next_tab        = ["prefix+n", "prefix+ctrl+n"]     # bind C-n next-window
+switch_tab      = "prefix+1..9"                     # base-index 1
+
+split_vertical   = "prefix+|"                       # bind | split-window -h
+split_horizontal = "prefix+minus"                   # bind - split-window -v
+
+# Pane focus. tmux used bare C-h/j/k/l with vim-awareness; herdr can't check
+# whether vim is running, so keep these on the prefix to avoid stealing them from vim.
+focus_pane_left  = "prefix+h"
+focus_pane_down  = "prefix+j"
+focus_pane_up    = "prefix+k"
+focus_pane_right = "prefix+l"
+last_pane        = "prefix+semicolon"                # tmux default for last pane (C-a C-a now sends a literal C-a)
+
+# bind -r H/J/K/L resize-pane (or prefix+r for resize mode)
+resize_pane_left  = "prefix+shift+h"
+resize_pane_down  = "prefix+shift+j"
+resize_pane_up    = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
+
+# bind Escape copy-mode -> open scrollback in $EDITOR
+edit_scrollback = ["prefix+e", "prefix+esc"]
+
+[ui]
+copy_on_select = true
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "hostname" },                            # @tokyo-night-tmux_show_hostname
+  { type = "datetime", format = "%d-%m-%Y %I:%M %p" }, # date_format DMY, time_format 12H
+]
+
+[session]
+resume_agents_on_restore = true                     # replaces resurrect + fix-claude-sessions.sh
+
+[experimental]
+pane_history = true                                 # @resurrect-capture-pane-contents
+
+[advanced]
+scrollback_limit_bytes = 100000000                  # history-limit 1000000 (~100 MB)

@@ -384,3 +384,6 @@ export HUNT_ACCESS_CLIENT_SECRET=$(dotsecenv secret get HUNT_ACCESS_CLIENT_SECRE
 
 # Add to ~/.bashrc or ~/.zshrc
 alias b="bunnylol"
+
+# opencode
+export PATH=/Users/mosab/.opencode/bin:$PATH

@@ -21,7 +21,7 @@ conversation-history/
 .claude-history
 
 # Generated artifacts
-dist/
+# dist/
 build/
 *.generated.*
 *.tmp
